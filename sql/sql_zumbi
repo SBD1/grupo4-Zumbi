@@ -4,7 +4,8 @@ CREATE TABLE corredores (
 	dano integer not null, 
 	velocidade integer not null, 
 	arranque integer not null, 
-	experiencia integer not null
+	experiencia integer not null, 
+	moedas integer not null
 );
 
 CREATE TABLE estaladores (
@@ -13,7 +14,8 @@ CREATE TABLE estaladores (
 	dano integer not null, 
 	velocidade integer not null, 
 	imparabilidade boolean not null,
-	experiencia integer not null
+	experiencia integer not null,
+	moedas integer not null
 );
 
 CREATE TABLE baiacu (
@@ -22,10 +24,9 @@ CREATE TABLE baiacu (
 	dano integer not null, 
 	velocidade integer not null, 
 	resistencia integer not null,
-	xp integer not null
+	experiencia integer not null,
+	moedas integer not null
 );
-
-
 
 CREATE TABLE gosmento (
 	id serial primary key,
@@ -35,7 +36,7 @@ CREATE TABLE gosmento (
 	tam_gosma integer not null,
 	distancia_tiro integer not null, 
 	experiencia integer not null, 
-	ouro integer not null
+	moedas integer not null
 );
 
 CREATE TABLE player (
@@ -45,20 +46,53 @@ CREATE TABLE player (
 	velocidade integer not null, 
 	nome varchar(255),
 	exp_acumulado integer not null, 
-);
-
-CREATE TABLE moeda (
-	id serial primary key,
-	valor integer not null, 
+	moedas integer not null
 );
 
 CREATE TABLE missao (
 	id serial primary key,
 	titulo varchar(255),
-	descricao varchar(255)  
+	descricao varchar(255), 
+	recompensa integer not null
+);
+
+CREATE TABLE falas (
+	id serial primary key,
+	texto varchar(255)
 );
 
 CREATE TABLE instrutor (
 	id serial primary key,
-	fala varchar(255), 
+	fala integer not null,
+	
+	foreign key (fala) references falas (id)
 );
+
+CREATE TABLE vendedor (
+	id serial primary key, 
+	fala integer not null,
+	
+	foreign key (fala) references falas (id)
+);
+
+CREATE TABLE mapa (
+	id serial primary key,
+	nome varchar(255)
+);
+
+CREATE TABLE zona (
+	id serial primary key,
+	nome varchar(255),
+	mapa integer not null,
+	
+	foreign key (mapa) references mapa (id)
+);
+
+CREATE TABLE quadrado (
+	id serial primary key,
+	moedas integer not null
+);
+
+
+
+
