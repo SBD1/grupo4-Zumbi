@@ -25,6 +25,8 @@ CREATE TABLE baiacu (
 	xp integer not null
 );
 
+
+
 CREATE TABLE gosmento (
 	id serial primary key,
 	vida integer not null, 
