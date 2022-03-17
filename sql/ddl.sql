@@ -1,3 +1,30 @@
+CREATE TABLE mapa (
+  id serial primary key,
+  nome varchar(255)
+);
+
+CREATE TABLE zona (
+  id serial primary key,
+  nome varchar(255),
+  mapa integer not null,
+  foreign key (mapa) references mapa (id)
+);
+
+CREATE TABLE quadrado (
+  id serial primary key,
+  moedas integer not null
+);
+
+CREATE TABLE instancia_zumbi (
+  id serial primary key,
+  moedas integer not null,
+	zona integer not null,
+	quadrado integer not null,
+
+  foreign key (zona) references zona (id),
+  foreign key (quadrado) references quadrado (id)
+);
+
 CREATE TABLE corredores (
   id serial primary key,
   vida integer not null, 
@@ -6,6 +33,7 @@ CREATE TABLE corredores (
   arranque integer not null, 
   experiencia integer not null, 
   moedas integer not null,
+
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
 );
@@ -18,6 +46,7 @@ CREATE TABLE estaladores (
   imparabilidade boolean not null,
   experiencia integer not null,
   moedas integer not null,
+
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
 );
@@ -30,6 +59,7 @@ CREATE TABLE baiacu (
   resistencia integer not null,
   experiencia integer not null,
   moedas integer not null,  
+  
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
 );
@@ -43,18 +73,125 @@ CREATE TABLE gosmento (
   distancia_tiro integer not null, 
   experiencia integer not null, 
   moedas integer not null,  
+  
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
 
 );
 
-CREATE TABLE instancia_zumbi (
+CREATE TABLE player (
   id serial primary key,
-  moedas integer not null,
-	zona integer not null,
-	quadrado integer not null,
-  foreign key (zona) references zona (id),
+  vida integer not null, 
+  dano integer not null, 
+  velocidade integer not null, 
+  nome varchar(255),
+  exp_acumulado integer not null, 
+  moedas integer not null
+);
+
+CREATE TABLE nivel (
+  id serial primary key,
+  aumento_vida integer not null,
+  aumento_dano integer not null,
+  aumento_velocidade integer not null,
+	player integer not null,
+  foreign key (player) references player (id)
+);
+
+CREATE TABLE bolsa (
+	id serial primary key,
+	qtd_itens integer not null,
+	tamanho integer not null,
+
+	player integer not null,	
+	foreign key (player) references player (id)
+);
+CREATE TABLE instancia_item (
+  id serial primary key,
+
+  player integer not null, 
+  bolsa integer not null,
+  quadrado integer not null,
+  foreign key (player) references player (id),  
+  foreign key (bolsa) references bolsa(id),
   foreign key (quadrado) references quadrado (id)
+);
+
+CREATE TABLE arma_branca (
+  id serial primary key,
+  nome varchar(255) not null,
+  preco integer not null,
+  dano integer not null,
+  tipo varchar(255), 
+  comprimento integer not null,
+
+  instancia_item integer not null, 
+  foreign key (instancia_item) references instancia_item (id)
+);
+
+CREATE TABLE arma_fogo (
+  id serial primary key,
+  nome varchar(255) not null,
+  preco integer not null,
+  dano integer not null,
+  tipo varchar(255),
+  distancia integer not null,
+  armazenamento integer not null,
+  velocidade_recarfa integer not null,
+  abertura_impacto integer not null,
+  
+  instancia_item integer not null, 
+  foreign key (instancia_item) references instancia_item (id)
+  );
+
+CREATE TABLE municao (
+  id serial primary key,
+  nome varchar(255) not null,
+  preco integer not null,
+  quantidade integer not null,
+  tipo_arma varchar(255),
+  
+  id_arma_fogo integer not null,
+  instancia_item integer not null, 
+  foreign key (id_arma_fogo) references arma_fogo (id),
+  foreign key (instancia_item) references instancia_item (id)
+);
+
+CREATE TABLE ARMADURA (
+	id serial primary key,
+	nome varchar(255) not null,
+	preco integer not null,
+	tipo varchar(255),
+	protecao integer not null,
+	
+	instancia_item integer not null, 
+	foreign key (instancia_item) references instancia_item (id)
+);
+
+CREATE TABLE COMIDA (
+	id serial primary key,
+	nome varchar(255) not null,
+	preco integer not null,
+	tipo varchar(255),
+	utilidade varchar(255),
+	quantidade_vida integer not null,
+	
+	instancia_item integer not null, 
+	foreign key (instancia_item) references instancia_item (id)
+);
+
+CREATE TABLE ADRENALINA (
+	id serial primary key,
+	nome varchar(255) not null,
+	preco integer not null,
+	tipo varchar(255),
+	utilidade varchar(255),
+	vida_adicional integer not null,
+	velocidade_adicional integer not null,
+	tempo_uso integer not null,
+	
+	instancia_item integer not null, 
+	foreign key (instancia_item) references instancia_item (id)
 );
 
 CREATE TABLE missao (
@@ -79,98 +216,4 @@ CREATE TABLE vendedor (
   id serial primary key, 
   fala integer not null,
   foreign key (fala) references falas (id)
-);
-
-CREATE TABLE mapa (
-  id serial primary key,
-  nome varchar(255)
-);
-
-CREATE TABLE zona (
-  id serial primary key,
-  nome varchar(255),
-  mapa integer not null,
-  foreign key (mapa) references mapa (id)
-);
-
-CREATE TABLE quadrado (
-  id serial primary key,
-  moedas integer not null
-);
-
-CREATE TABLE player (
-  id serial primary key,
-  vida integer not null, 
-  dano integer not null, 
-  velocidade integer not null, 
-  nome varchar(255),
-  exp_acumulado integer not null, 
-  moedas integer not null
-);
-
-CREATE TABLE bolsa (
-	id serial primary key,
-	qtd_itens integer not null,
-	tamanho integer not null,
-	player integer not null,	
-	foreign key (player) references player (id)
-);
-
-CREATE TABLE nivel (
-  id serial primary key,
-  aumento_vida integer not null,
-  aumento_dano integer not null,
-  aumento_velocidade integer not null,
-	player integer not null,
-  foreign key (player) references player (id)
-);
-
-
--- instancia_item, arma_branca, arma_fogo, municao
-
-CREATE TABLE instancia_item (
-  id serial primary key,
-
-  player integer not null, 
-  bolsa integer not null,
-  foreign key (player) references player (id),  
-  foreign key (bolsa) references bolsa(id),
-  foreign key (quadrado) references quadrado (id)
-);
-
-CREATE TABLE arma_branca (
-  id serial primary key,
-  nome varchar(255) not null,
-  preco integer not null,
-  dano integer not null,
-  tipo varchar(255), 
-  comprimento integer not null,
-  instancia_item integer not null, 
-  foreign key (instancia_item) references instancia_item (id)
-);
-
-CREATE TABLE arma_fogo (
-  id serial primary key,
-  nome varchar(255) not null,
-  preco integer not null,
-  dano integer not null,
-  tipo varchar(255),
-  distancia integer not null,
-  armazenamento integer not null,
-  velocidade_recarfa integer not null,
-  abertura_impacto integer not null,
-  instancia_item integer not null, 
-  foreign key (instancia_item) references instancia_item (id)
-  );
-
-CREATE TABLE municao (
-  id serial primary key,
-  nome varchar(255) not null,
-  preco integer not null,
-  quantidade integer not null,
-  tipo_arma varchar(255),
-  id_arma_fogo integer not null,
-  instancia_item integer not null, 
-  foreign key (id_arma_fogo) references arma_fogo (id),
-  foreign key (instancia_item) references instancia_item (id)
 );
