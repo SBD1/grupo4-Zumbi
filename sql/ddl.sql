@@ -11,8 +11,10 @@ CREATE TABLE zona (
 );
 
 CREATE TABLE quadrado (
-  id serial primary key,
-  moedas integer not null
+	id serial primary key,
+	moedas integer not null,  
+	zona integer not null,
+	foreign key (zona) references zona (id)
 );
 
 CREATE TABLE instancia_zumbi (
