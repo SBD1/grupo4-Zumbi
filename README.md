@@ -22,3 +22,7 @@ A divisão das pastas foi feita de acordo com estas etapas, e se encontram dentr
 ## Primeira entrega
 
 A primeira entrega está na pasta DER-Jogo (Separados por versões), sendo a entrega final o arquivo **DER/DER-Jogo-v5.png**
+
+## Protótipo de alta fidelidade
+
+https://www.figma.com/file/yGN35EEnHwCy5wCxiE5uxP/Zumbi---Bancos?node-id=0%3A1
