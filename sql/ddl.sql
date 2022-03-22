@@ -1,3 +1,11 @@
+CREATE DATABASE Zumbi;
+
+CREATE SEQUENCE popula_id START 1;
+
+CREATE DOMAIN moeda AS DECIMAL(7,2) CHECK(
+    VALUE >= 0
+);
+
 CREATE TABLE mapa (
   id serial primary key,
   nome varchar(255)
@@ -12,14 +20,14 @@ CREATE TABLE zona (
 
 CREATE TABLE quadrado (
 	id serial primary key,
-	moedas integer not null,  
+	moedas moeda not null,  
 	zona integer not null,
 	foreign key (zona) references zona (id)
 );
 
 CREATE TABLE instancia_zumbi (
   id serial primary key,
-  moedas integer not null,
+  dinheiro moeda not null,
 	zona integer not null,
 	quadrado integer not null,
 
@@ -34,7 +42,6 @@ CREATE TABLE corredores (
   velocidade integer not null, 
   arranque integer not null, 
   experiencia integer not null, 
-  moedas integer not null,
 
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
@@ -47,7 +54,6 @@ CREATE TABLE estaladores (
   velocidade integer not null, 
   imparabilidade boolean not null,
   experiencia integer not null,
-  moedas integer not null,
 
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
@@ -59,8 +65,7 @@ CREATE TABLE baiacu (
   dano integer not null, 
   velocidade integer not null, 
   resistencia integer not null,
-  experiencia integer not null,
-  moedas integer not null,  
+  experiencia integer not null, 
   
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
@@ -73,8 +78,7 @@ CREATE TABLE gosmento (
   velocidade integer not null, 
   tam_gosma integer not null,
   distancia_tiro integer not null, 
-  experiencia integer not null, 
-  moedas integer not null,  
+  experiencia integer not null,
   
   instancia_zumbi integer not null, 
   foreign key (instancia_zumbi) references instancia_zumbi (id)
@@ -88,7 +92,7 @@ CREATE TABLE player (
   velocidade integer not null, 
   nome varchar(255),
   exp_acumulado integer not null, 
-  moedas integer not null
+  dinheiro moeda not null
 );
 
 CREATE TABLE nivel (
@@ -108,6 +112,7 @@ CREATE TABLE bolsa (
 	player integer not null,	
 	foreign key (player) references player (id)
 );
+
 CREATE TABLE instancia_item (
   id serial primary key,
 
