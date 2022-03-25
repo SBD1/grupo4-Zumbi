@@ -129,7 +129,7 @@ CREATE TABLE instancia_item (
   player integer not null, 
   bolsa integer not null,
   quadrado integer not null,
-  foreign key (id_item) references item (id)
+  foreign key (id_item) references item (id),
   foreign key (player) references player (id),  
   foreign key (bolsa) references bolsa(id),
   foreign key (quadrado) references quadrado (id)
