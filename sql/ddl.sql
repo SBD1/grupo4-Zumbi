@@ -154,7 +154,7 @@ CREATE TABLE arma_fogo (
   tipo varchar(255),
   distancia integer not null,
   armazenamento integer not null,
-  velocidade_recarfa integer not null,
+  velocidade_recarga integer not null,
   abertura_impacto integer not null,
 
   foreign key (id) references item (id)
@@ -172,7 +172,7 @@ CREATE TABLE municao (
   foreign key (id) references item (id)
 );
 
-CREATE TABLE armaduraa (
+CREATE TABLE armadura (
 	id serial primary key,
 	nome varchar(255) not null,
 	preco integer not null,
