@@ -5,8 +5,6 @@ INSERT INTO player (vida, dano, velocidade, nome, exp_acumulado, dinheiro) VALUE
 (100, 15, 10, 'Eddie', 10, 50), 
 (50, 20, 10, 'Guilherme', 15, 100); 
 
-
-
 -- INSERT: itens
 INSERT INTO item (tipoEspecializacao) VALUES
 ('arma_branca'),
