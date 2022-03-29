@@ -14,26 +14,16 @@ INSERT INTO zumbi (tipoespecializacao) VALUES
 ('baiacu'),
 ('gosmento');
 
--- INSERT: zumbi
-INSERT INTO zumbi (tipoespecializacao) VALUES
-('corredor'),
-('estalador'),
-('baiacu'),
-('gosmento');
 
--- INSERT: corredores
 INSERT INTO corredores (id_zumbi, vida, dano, velocidade, arranque, experiencia) VALUES
 (1, 60, 5, 10, 3, 50);
 
--- INSERT: estaladores
 INSERT INTO estaladores (id_zumbi, vida, dano, velocidade, imparabilidade, experiencia) VALUES
 (2, 100, 20, 5, true, 70);
 
--- INSERT: baiacu
 INSERT INTO baiacu (id_zumbi, vida, dano, velocidade, resistencia, experiencia) VALUES
 (3, 180, 15, 5, 20, 150);
 
--- INSERT: gosmento
 INSERT INTO gosmento (id_zumbi, vida, dano, velocidade, tam_gosma, distancia_tiro , experiencia) VALUES
 (4, 80, 10, 5, 2, 2, 100);
 
@@ -88,3 +78,89 @@ INSERT INTO adrenalina (id_item, nome, preco, tipo, utilidade, vida_adicional, v
 (6, 'coquinha gelada', 10, 'energetico', 'aumentar vida maxima', 20, 0, 30),
 (6, 'redbull', 10, 'energetico', 'aumenta velocidade', 0, 2, 30),
 (6, 'dolly guarana', 20, 'energetico', 'aumenta velocidade e vida maxima', 25, 3, 45);
+
+--INSERT: mapa
+INSERT INTO mapa (nome) VALUES
+('Zumbizera');
+
+--INSERT: zona
+INSERT INTO zona (nome, mapa) VALUES
+('Zona norte', 1),
+('Zona nordeste', 1),
+('Zona centro-oeste', 1),
+('Zona sudeste', 1),
+('Zona sul', 1);
+
+--INSERT: quadrado
+INSERT INTO quadrado (moedas, zona) VALUES
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1);
+
+--INSERT: referenciando quadrado
+UPDATE quadrado 
+SET lado_norte=null ,lado_sul=4 ,lado_leste=2 ,lado_oeste=null
+WHERE id = 1;
+
+UPDATE quadrado 
+SET lado_sul=5 ,lado_leste=3 ,lado_oeste=1
+WHERE id = 2;
+
+UPDATE quadrado 
+SET lado_sul=6 ,lado_oeste=2 
+WHERE id = 3;
+
+UPDATE quadrado 
+SET lado_norte=1 ,lado_sul=7 ,lado_leste=5
+WHERE id = 4;
+
+UPDATE quadrado 
+SET lado_norte=2 ,lado_sul=8 ,lado_leste=6 ,lado_oeste=4
+WHERE id = 5;
+
+UPDATE quadrado 
+SET lado_norte=3 ,lado_sul=9 ,lado_oeste=5
+WHERE id = 6;
+
+UPDATE quadrado 
+SET lado_norte=4 ,lado_leste=8
+WHERE id = 7;
+
+UPDATE quadrado 
+SET lado_norte=5 ,lado_leste=9 ,lado_oeste=7
+WHERE id = 8;
+
+UPDATE quadrado 
+SET lado_norte=6 ,lado_oeste=8
+WHERE id = 9;
+
+-- INSERT: npc
+INSERT INTO npc (tipo_especializacao) VALUES
+('vendedor'),
+('instrutor');
+
+INSERT INTO vendedor (id_npc) VALUES
+(1);
+
+INSERT INTO instancia_npc (id_npc, quadrado) VALUES
+(1, '');
+
+INSERT INTO instrutor (id_npc) VALUES
+(2);
+
+INSERT INTO falas (id_npc, texto) VALUES
+(1, 'deseja comprar um item?'),
+(2, 'deseja entrar em uma missao?');
+
+INSERT INTO estoque (id_vendedor, id_item) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5);

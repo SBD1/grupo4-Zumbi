@@ -22,6 +22,14 @@ CREATE TABLE quadrado (
 	id serial primary key,
 	moedas moeda not null,  
 	zona integer not null,
+	lado_norte integer,
+	lado_sul integer,
+	lado_leste integer,
+	lado_oeste  integer,
+	foreign key (lado_norte) references quadrado (id)
+	foreign key (lado_sul) references quadrado (id)
+	foreign key (lado_leste) references quadrado (id)
+	foreign key (lado_oeste) references quadrado (id)
 	foreign key (zona) references zona (id)
 );
 
