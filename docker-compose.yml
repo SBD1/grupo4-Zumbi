@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  zumbi_db_service:
+    container_name: zumbi_db_container
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_DB: zumbi_db
+      POSTGRES_USER: zumbi_user
+      POSTGRES_PASSWORD: grupo4zumbi
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  # zumbi_api_service:
+  #   container_name: zumbi_api_container
+  #   image: zumbi_api_image
+  #   build: ./
+  #   volumes:
+  #     - .:/zumbi_game
+  #     - /zumbi_game/node_modules
+  #   ports:
+  #     - "3333:3333"
+  #   links:
+  #     - zumbi_db_service
+  #   depends_on:
+  #     - zumbi_db_service
