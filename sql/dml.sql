@@ -1,11 +1,3 @@
-select * from item;
-
-select * from bolsa;
-
-select * from arma_fogo;
-
-select * from item ir inner join arma_branca ab on ir.id = ab.id;
-
 -- Arquivo para popular o jogo zumbi--
 -- INSERT: player
 INSERT INTO player (vida, dano, velocidade, nome, exp_acumulado, dinheiro) VALUES 
@@ -22,8 +14,6 @@ INSERT INTO zumbi (tipoespecializacao) VALUES
 ('baiacu'),
 ('gosmento');
 
-select * from zumbi;
-
 INSERT INTO corredores (id, vida, dano, velocidade, arranque, experiencia) VALUES
 (1, 60, 5, 10, 3, 50);
 
@@ -36,6 +26,11 @@ INSERT INTO baiacu (id, vida, dano, velocidade, resistencia, experiencia) VALUES
 INSERT INTO gosmento (id, vida, dano, velocidade, tam_gosma, distancia_tiro , experiencia) VALUES
 (4, 80, 10, 5, 2, 2, 100);
 
+-- INSERT: instancia
+INSERT INTO instancia_zumbi (id_zumbi, vida_atual, dinheiro, zona, quadrado) VALUES
+(2, 100, 10, 1, 5);
+
+
 -- INSERT: itens
 INSERT INTO item (tipo_especializacao) VALUES
 ('arma_branca'),
@@ -45,9 +40,6 @@ INSERT INTO item (tipo_especializacao) VALUES
 ('comida'),
 ('adrenalina');
 
-select * from item;
--- INSERT: armas brancas
--- Revisar a coluna: tipo
 INSERT INTO arma_branca (id, nome, preco, dano, tipo, comprimento) VALUES
 (1, 'machado', 75, 35, 'corpo a corpo', 1);
 
@@ -72,8 +64,6 @@ INSERT INTO adrenalina (id, nome, preco, tipo, utilidade, vida_adicional, veloci
 --INSERT: mapa
 INSERT INTO mapa (nome) VALUES
 ('Zumbizera');
-
-select * from mapa;
 
 --INSERT: zona
 INSERT INTO zona (nome, mapa) VALUES

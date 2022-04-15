@@ -2,7 +2,7 @@
 
 CREATE SEQUENCE popula_id START 1;
 
-CREATE DOMAIN moeda AS DECIMAL(7,2) CHECK(
+CREATE DOMAIN moeda AS INTEGER CHECK(
     VALUE >= 0
 );
 
@@ -40,8 +40,8 @@ CREATE TABLE zumbi (
 
 CREATE TABLE instancia_zumbi (
   id serial primary key,
-
   id_zumbi integer not null,
+  vida_atual integer not null,
   dinheiro moeda not null,
   zona integer not null,
   quadrado integer not null,
