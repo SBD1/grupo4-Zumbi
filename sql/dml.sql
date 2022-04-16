@@ -1,4 +1,30 @@
 -- Arquivo para popular o jogo zumbi--
+
+--INSERT: mapa
+INSERT INTO mapa (nome) VALUES
+('Zumbizera');
+
+--INSERT: zona
+INSERT INTO zona (nome, mapa) VALUES
+('Zona norte', 1),
+('Zona nordeste', 1),
+('Zona centro-oeste', 1),
+('Zona sudeste', 1),
+('Zona sul', 1);
+
+--INSERT: quadrado
+INSERT INTO quadrado (moedas, zona) VALUES
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1);
+
+
 -- INSERT: player
 INSERT INTO player (vida, dano, velocidade, nome, exp_acumulado, dinheiro) VALUES 
 (100, 10, 5, 'Lorrany', 0, 0), 
@@ -61,29 +87,6 @@ INSERT INTO comida (id, nome, preco, tipo, utilidade, quantidade_vida) VALUES
 INSERT INTO adrenalina (id, nome, preco, tipo, utilidade, vida_adicional, velocidade_adicional, tempo_uso) VALUES
 (6, 'coquinha gelada', 10, 'energetico', 'aumentar vida maxima', 20, 0, 30);
 
---INSERT: mapa
-INSERT INTO mapa (nome) VALUES
-('Zumbizera');
-
---INSERT: zona
-INSERT INTO zona (nome, mapa) VALUES
-('Zona norte', 4),
-('Zona nordeste', 4),
-('Zona centro-oeste', 4),
-('Zona sudeste', 4),
-('Zona sul', 4);
-
---INSERT: quadrado
-INSERT INTO quadrado (moedas, zona) VALUES
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1);
 
 --INSERT: referenciando quadrado
 UPDATE quadrado 
