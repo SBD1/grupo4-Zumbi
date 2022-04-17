@@ -92,3 +92,111 @@ BEGIN
   (SELECT vida_atual FROM instancia_zumbi WHERE id=_id_instancia_zumbi);
 END
 $$ LANGUAGE plpgsql;
+
+-- pega todas as instancias de items com nome e preço
+CREATE OR REPLACE FUNCTION get_items()
+    RETURNS table (
+    	id INTEGER,
+    	id_item INTEGER,
+    	player INTEGER,
+    	bolsa INTEGER,
+    	quadrado INTEGER,
+    	tipo_especializacao VARCHAR,
+    	nome VARCHAR,
+    	preco INTEGER
+    ) AS $$
+begin
+	
+	return QUERY
+		SELECT ii.*, i.tipo_especializacao,
+		
+		CASE
+		
+		  WHEN i.tipo_especializacao = 'arma_branca' THEN ab.nome
+		  WHEN i.tipo_especializacao = 'arma_fogo' THEN af.nome
+			WHEN i.tipo_especializacao = 'municao' THEN m.nome
+			WHEN i.tipo_especializacao = 'armadura' THEN ar.nome
+			WHEN i.tipo_especializacao = 'comida' THEN co.nome
+			WHEN i.tipo_especializacao = 'adrenalina' THEN ad.nome
+		  ELSE NULL
+		
+		END as "nome",
+		
+		CASE
+		
+		  WHEN i.tipo_especializacao = 'arma_branca' THEN ab.preco
+		  WHEN i.tipo_especializacao = 'arma_fogo' THEN af.preco
+			WHEN i.tipo_especializacao = 'municao' THEN m.preco
+			WHEN i.tipo_especializacao = 'armadura' THEN ar.preco
+			WHEN i.tipo_especializacao = 'comida' THEN co.preco
+			WHEN i.tipo_especializacao = 'adrenalina' THEN ad.preco
+		  ELSE NULL
+		
+		END as "preco"
+		
+		
+		FROM instancia_item ii
+		
+		LEFT JOIN item i ON ii.id_item = i.id
+		
+		LEFT JOIN arma_branca ab
+		ON
+		CASE
+		
+		     WHEN i.tipo_especializacao = 'arma_branca' THEN ab.id
+		
+		     ELSE NULL
+		
+		END = i.id
+		
+		LEFT JOIN arma_fogo af
+		ON
+		CASE
+		
+		     WHEN i.tipo_especializacao = 'arma_fogo' THEN af.id
+		
+		     ELSE NULL
+		
+		END = i.id
+		
+		LEFT JOIN municao m
+		ON
+		CASE
+		
+		     WHEN i.tipo_especializacao = 'municao' THEN m.id
+		
+		     ELSE NULL
+		
+		END = i.id
+		
+		LEFT JOIN armadura ar
+		ON
+		CASE
+		
+		     WHEN i.tipo_especializacao = 'armadura' THEN ar.id
+		
+		     ELSE NULL
+		
+		END = i.id
+		
+		LEFT JOIN comida co
+		ON
+		CASE
+		
+		     WHEN i.tipo_especializacao = 'arma_branca' THEN co.id
+		
+		     ELSE NULL
+		
+		END = i.id
+		
+		LEFT JOIN adrenalina ad
+		ON
+		CASE
+		
+		     WHEN i.tipo_especializacao = 'arma_branca' THEN ad.id
+		
+		     ELSE NULL
+		
+		END = i.id;
+END
+$$ LANGUAGE plpgsql;
