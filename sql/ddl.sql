@@ -213,17 +213,11 @@ CREATE TABLE adrenalina (
   tempo_uso integer not null
 );
 
-CREATE TABLE missao (
-  id serial primary key,
-  titulo varchar(255),
-  descricao varchar(255), 
-  recompensa integer not null
-);
-
 CREATE TABLE npc (
   id serial primary key,
   tipo_especializacao varchar(255) check(tipo_especializacao in ('instrutor', 'vendedor'))
 );
+
 
 CREATE TABLE instancia_npc (
   id serial primary key,
@@ -233,17 +227,24 @@ CREATE TABLE instancia_npc (
   foreign key (id_npc) references npc (id)
 );
 
---CREATE TABLE instrutor (
---  id serial primary key,
---  id_npc integer not null,
---  foreign key (id_npc) references npc (id)
---);
+CREATE TABLE missao (
+  id serial primary key,
+  titulo varchar(255),
+  descricao varchar(255), 
+  recompensa integer not null,
+  
+  npc integer not null,
 
---CREATE TABLE vendedor (
---  id serial primary key, 
---  id_npc integer not null,
---  foreign key (id_npc) references npc (id)
---);
+  foreign key (npc) references npc (id)
+);
+
+CREATE TABLE missaoPlayer (
+  missao integer not null references missao (id),
+  player integer not null references player (id),
+  completa integer check(completa in (0, 1)),
+
+  primary key (missao, player)
+);
 
 CREATE TABLE falas (
   id serial primary key,
