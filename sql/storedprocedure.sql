@@ -225,14 +225,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
-CREATE OR REPLACE PROCEDURE pegar_todos_items_do_quadrado(_id_quadrado INTEGER, _id_bolsa INTEGER)
-AS $$
+CREATE OR REPLACE FUNCTION get_estoque_vendendor(_id_vendedor INTEGER)
+RETURNS table (
+    	id_item INTEGER,
+    	tipo_especializacao VARCHAR,
+    	nome VARCHAR,
+    	preco INTEGER
+) AS $$
 BEGIN
-    UPDATE instancia_item SET quadrado = null, bolsa = _id_bolsa
-      WHERE quadrado = _id_quadrado;
-END;
+   return query
+   	select i.* from estoque e
+   		inner join get_items() i on e.id_item = i.id_item
+   	where e.id_vendedor = _id_vendedor;
+END
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION get_estoque_vendendor(_id_vendedor INTEGER)
 RETURNS table (
@@ -248,3 +255,38 @@ BEGIN
    	where e.id_vendedor = _id_vendedor;
 END
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION pegar_quadrado_player(_id_player INTEGER)
+    RETURNS VARCHAR AS $$
+BEGIN
+  RETURN 
+    (SELECT quadrado FROM player WHERE id=_id_player);
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION pegar_quadrado_player(_id_player INTEGER)
+    RETURNS VARCHAR AS $$
+BEGIN
+  RETURN 
+    (SELECT quadrado FROM player WHERE id=_id_player);
+END
+$$ LANGUAGE plpgsql;
+
+
+-- pega todos items com tipo, nome e preço
+CREATE OR REPLACE FUNCTION get_quadrados_zona(_id_zona INTEGER)
+    RETURNS table (
+    	id INTEGER,
+		moedas moeda,
+		lado_norte INTEGER,
+		lado_sul INTEGER,
+		lado_leste INTEGER,
+		lado_oeste INTEGER
+    ) AS $$
+BEGIN
+	RETURN QUERY
+		(SELECT z.id, z.moedas, z.lado_norte, z.lado_sul, z.lado_leste, z.lado_oeste FROM quadrado z WHERE z.zona=_id_zona);
+END
+$$ LANGUAGE plpgsql;
+
+

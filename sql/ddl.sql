@@ -99,6 +99,8 @@ CREATE TABLE player (
   nome varchar(255),
   exp_acumulado integer not null, 
   dinheiro moeda not null
+  quadrado integer,
+  foreign key (quadrado) references quadrado (id)
 );
 
 CREATE TABLE morte (
@@ -120,7 +122,6 @@ CREATE TABLE nivel (
 
 CREATE TABLE bolsa (
   id serial primary key,
-  qtd_itens integer not null,
   tamanho integer not null,
   player integer not null,  
   foreign key (player) references player (id)
