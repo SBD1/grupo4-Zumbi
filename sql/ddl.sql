@@ -137,9 +137,9 @@ CREATE TABLE instancia_item (
   id serial primary key,
 
   id_item integer not null,
-  player integer not null, 
-  bolsa integer not null,
-  quadrado integer not null,
+  player integer, 
+  bolsa integer,
+  quadrado integer,
 
   foreign key (id_item) references item (id),
   foreign key (player) references player (id),  

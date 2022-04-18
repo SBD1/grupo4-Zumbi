@@ -153,98 +153,37 @@ INSERT INTO instancia_item (id_item, player, bolsa, quadrado) values
 (1, null, 2, null),
 (2, null, 2, null),
 (2, null, 2, null),
-(3, null, 2, null);
+(3, null, 2, null),
+(5, null, null, 1),
+(1, null, null, 2),
+(4, 1, null, null);
 
--- selecionar items de uma bolsa
-SELECT ii.id as "id_instancia", i.*,
+-- pegar informações de uma comida
+select * from item i inner join comida c on i.id = c.id;
 
-CASE
+-- pegar informações de uma armadura
+select * from item i inner join armadura a on i.id = a.id;
 
-  WHEN i.tipo_especializacao = 'arma_branca' THEN ab.nome
-  WHEN i.tipo_especializacao = 'arma_fogo' THEN af.nome
-	WHEN i.tipo_especializacao = 'municao' THEN m.nome
-	WHEN i.tipo_especializacao = 'armadura' THEN ar.nome
-	WHEN i.tipo_especializacao = 'comida' THEN co.nome
-	WHEN i.tipo_especializacao = 'adrenalina' THEN ad.nome
-  ELSE NULL
+-- pegar informações de uma municao
+select * from item i inner join municao m on i.id = m.id;
 
-END as "nome",
+-- pegar informações de uma adrenalina 
+select * from item i inner join adrenalina a on i.id = a.id;
 
-CASE
+-- pegar informações de uma arma_fogo 
+select * from item i inner join arma_fogo af on i.id = af.id;
 
-  WHEN i.tipo_especializacao = 'arma_branca' THEN ab.preco
-  WHEN i.tipo_especializacao = 'arma_fogo' THEN af.preco
-	WHEN i.tipo_especializacao = 'municao' THEN m.preco
-	WHEN i.tipo_especializacao = 'armadura' THEN ar.preco
-	WHEN i.tipo_especializacao = 'comida' THEN co.preco
-	WHEN i.tipo_especializacao = 'adrenalina' THEN ad.preco
-  ELSE NULL
-
-END as "preco"
+-- pegar informações de uma arma_branca
+select * from item i inner join arma_branca ab on i.id = ab.id;
 
 
-FROM instancia_item ii
+-- é preciso rodar as storedProcedures para rodar os comandos abaixo
 
-LEFT JOIN item i ON ii.id_item = i.id
+-- pegar todos os items de uma bolsa
+select * from get_items() as i where  i.bolsa = 2
 
-LEFT JOIN arma_branca ab
-ON
-CASE
+-- pegar todos os items de um player
+select * from get_items() as i where  i.player = 1
 
-     WHEN i.tipo_especializacao = 'arma_branca' THEN ab.id
-
-     ELSE NULL
-
-END = i.id
-
-LEFT JOIN arma_fogo af
-ON
-CASE
-
-     WHEN i.tipo_especializacao = 'arma_fogo' THEN af.id
-
-     ELSE NULL
-
-END = i.id
-
-LEFT JOIN municao m
-ON
-CASE
-
-     WHEN i.tipo_especializacao = 'municao' THEN m.id
-
-     ELSE NULL
-
-END = i.id
-
-LEFT JOIN armadura ar
-ON
-CASE
-
-     WHEN i.tipo_especializacao = 'armadura' THEN ar.id
-
-     ELSE NULL
-
-END = i.id
-
-LEFT JOIN comida co
-ON
-CASE
-
-     WHEN i.tipo_especializacao = 'arma_branca' THEN co.id
-
-     ELSE NULL
-
-END = i.id
-
-LEFT JOIN adrenalina ad
-ON
-CASE
-
-     WHEN i.tipo_especializacao = 'arma_branca' THEN ad.id
-
-     ELSE NULL
-
-END = i.id
-
-WHERE ii.bolsa = 2
+-- pegar todos os items de um quadrado
+select * from get_items() as i where  i.quadrado = 1
