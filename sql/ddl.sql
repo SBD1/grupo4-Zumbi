@@ -102,13 +102,12 @@ CREATE TABLE player (
 );
 
 CREATE TABLE morte (
-  id_player integer not null,
-  id_zumbi integer not null,
-  vitorioso char(1) not null,
-  data_morte date not null,
-
-  CONSTRAINT pk_morte primary key (id_player, id_zumbi, data_morte)
+  id serial primary key,
+  player integer not null references player (id),
+  zumbi integer not null references zumbi (id),
+  vitorioso varchar(255) not null check(vitorioso in ('zumbi','player'))
 );
+
 
 CREATE TABLE nivel (
   id serial primary key,
