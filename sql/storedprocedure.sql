@@ -93,22 +93,18 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
--- pega todas as instancias de items com nome e preço
+-- pega todos items com tipo, nome e preço
 CREATE OR REPLACE FUNCTION get_items()
     RETURNS table (
-    	id INTEGER,
     	id_item INTEGER,
-    	player INTEGER,
-    	bolsa INTEGER,
-    	quadrado INTEGER,
     	tipo_especializacao VARCHAR,
     	nome VARCHAR,
     	preco INTEGER
     ) AS $$
 begin
-	
+
 	return QUERY
-		SELECT ii.*, i.tipo_especializacao,
+		SELECT i.id as id_item, i.tipo_especializacao,
 		
 		CASE
 		
@@ -134,11 +130,7 @@ begin
 		
 		END as "preco"
 		
-		
-		FROM instancia_item ii
-		
-		LEFT JOIN item i ON ii.id_item = i.id
-		
+		FROM item i
 		LEFT JOIN arma_branca ab
 		ON
 		CASE
@@ -183,7 +175,7 @@ begin
 		ON
 		CASE
 		
-		     WHEN i.tipo_especializacao = 'arma_branca' THEN co.id
+		     WHEN i.tipo_especializacao = 'comida' THEN co.id
 		
 		     ELSE NULL
 		
@@ -193,10 +185,66 @@ begin
 		ON
 		CASE
 		
-		     WHEN i.tipo_especializacao = 'arma_branca' THEN ad.id
+		     WHEN i.tipo_especializacao = 'adrenalina' THEN ad.id
 		
 		     ELSE NULL
 		
 		END = i.id;
+END
+$$ LANGUAGE plpgsql;
+
+-- pega todas as instancias de items com tipo, nome e preço
+CREATE OR REPLACE FUNCTION get_instancia_items_nomes_and_precos()
+    RETURNS table (
+    	id INTEGER,
+    	player INTEGER,
+    	bolsa INTEGER,
+    	quadrado INTEGER,
+    	id_item INTEGER,
+    	tipo_especializacao VARCHAR,
+    	nome VARCHAR,
+    	preco INTEGER
+    ) AS $$
+begin
+	
+	return QUERY
+		SELECT ii.id, ii.player, ii.bolsa, ii.quadrado, i.*
+		
+		FROM instancia_item ii
+
+		LEFT JOIN get_items() i ON ii.id_item = i.id_item;
+END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE PROCEDURE pegar_item_do_quadrado(_id_instancia_item INTEGER, _id_bolsa INTEGER)
+AS $$
+BEGIN
+    UPDATE instancia_item SET quadrado = null, bolsa = _id_bolsa
+      WHERE id = _id_instancia_item;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE PROCEDURE pegar_todos_items_do_quadrado(_id_quadrado INTEGER, _id_bolsa INTEGER)
+AS $$
+BEGIN
+    UPDATE instancia_item SET quadrado = null, bolsa = _id_bolsa
+      WHERE quadrado = _id_quadrado;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_estoque_vendendor(_id_vendedor INTEGER)
+RETURNS table (
+    	id_item INTEGER,
+    	tipo_especializacao VARCHAR,
+    	nome VARCHAR,
+    	preco INTEGER
+) AS $$
+BEGIN
+   return query
+   	select i.* from estoque e
+   		inner join get_items() i on e.id_item = i.id_item
+   	where e.id_vendedor = _id_vendedor;
 END
 $$ LANGUAGE plpgsql;

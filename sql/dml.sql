@@ -180,10 +180,10 @@ select * from item i inner join arma_branca ab on i.id = ab.id;
 -- é preciso rodar as storedProcedures para rodar os comandos abaixo
 
 -- pegar todos os items de uma bolsa
-select * from get_items() as i where  i.bolsa = 2
+select * from get_instancia_items_nomes_and_precos() as i where  i.bolsa = 2;
 
 -- pegar todos os items de um player
-select * from get_items() as i where  i.player = 1
+select * from get_instancia_items_nomes_and_precos() as i where  i.player = 1;
 
 -- pegar todos os items de um quadrado
-select * from get_items() as i where  i.quadrado = 1
+select * from get_instancia_items_nomes_and_precos() as i where  i.quadrado = 1;
