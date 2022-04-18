@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.divSize{
+    background-color: #C4C4C4;
+    width: 3rem;
+    height: 3rem;
+}
+.buttonSize{
+    cursor: pointer;
+    border: none;
+    background-color: #C4C4C4;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+}
+.middleButtons{
+    display: flex;
+    flex-direction: row;
+}
