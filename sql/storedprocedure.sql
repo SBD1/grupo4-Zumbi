@@ -1,4 +1,4 @@
--- Player recebe dano de zumbi e a atualiza a vida do player
+
 CREATE OR REPLACE FUNCTION get_tipo_zumbi (_id_zumbi INTEGER)
     RETURNS VARCHAR AS $$
 BEGIN
@@ -34,6 +34,8 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+
+-- Player recebe dano de zumbi e a atualiza a vida do player
 CREATE OR REPLACE FUNCTION update_vida_player(_id_zumbi INTEGER, _id_player INTEGER)
     RETURNS INTEGER AS $$
 BEGIN
@@ -45,7 +47,7 @@ END
 $$ LANGUAGE plpgsql;
 
 
--- Zumbi recebe dano do player usando item
+
 -- Item que o player esta usando
 CREATE OR REPLACE FUNCTION get_item_player(_id_item INTEGER)
     RETURNS VARCHAR AS $$
@@ -286,7 +288,6 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-<<<<<<< HEAD
 CREATE OR REPLACE FUNCTION pegar_quadrado_player(_id_player INTEGER)
     RETURNS VARCHAR AS $$
 BEGIN
@@ -372,7 +373,6 @@ BEGIN
 		);
 END
 $$ LANGUAGE plpgsql;
-=======
 CREATE OR REPLACE PROCEDURE dropar_item_no_quadrado(_id_instancia_item INTEGER, _id_quadrado INTEGER)
 AS $$
 BEGIN
@@ -405,4 +405,81 @@ BEGIN
 		ROLLBACK;
 
 END; $$ LANGUAGE plpgsql;
->>>>>>> b2b1293 (Adicionando compra e venda de itens)
+
+CREATE OR REPLACE PROCEDURE pegar_missao(_id_npc INTEGER, _id_player INTEGER)
+AS $$
+BEGIN
+
+	INSERT INTO missaoPlayer (missao, player, completa) VALUES
+	((SELECT id FROM missao WHERE npc = _id_npc), _id_player, 0);
+
+END; $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE completa_missao(_id_missao INTEGER, _id_player INTEGER)
+AS $$
+BEGIN
+
+	UPDATE missaoPlayer  SET completa = 1 WHERE missao = _id_missao AND player = _id_player;
+
+	UPDATE player p SET dinheiro = p.dinheiro + get_recompensa(_id_missao) WHERE id = _id_player;
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION get_dinheiro_instancia_zumbi (_id_instancia_zumbi INTEGER)
+    RETURNS moeda AS $$
+BEGIN
+  RETURN 
+  (SELECT dinheiro FROM instancia_zumbi WHERE id=_id_instancia_zumbi);
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_tipo_zumbi_from_instancia(_id_instancia_zumbi INTEGER)
+    RETURNS VARCHAR AS $$
+BEGIN
+  RETURN 
+  (SELECT z.tipoEspecializacao FROM instancia_zumbi iz INNER JOIN zumbi z ON iz.id_zumbi = z.id WHERE iz.id=_id_instancia_zumbi);
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_vida_maxima_zumbi(tipo_zumbi VARCHAR)
+    RETURNS INTEGER AS $$
+BEGIN
+  RETURN 
+  (SELECT
+    case
+        when  tipo_zumbi = 'corredores' then corredores.vida
+        when  tipo_zumbi = 'estaladores' then estaladores.vida
+        when  tipo_zumbi = 'baiacu' then baiacu.vida
+        when  tipo_zumbi = 'gosmento' then gosmento.vida
+    end as vida
+    FROM
+        corredores,
+        estaladores,
+        baiacu,
+        gosmento);
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE matar_zumbi(_id_instancia_zumbi INTEGER, _id_player INTEGER, _id_novo_quadrado INTEGER)
+AS $$
+BEGIN
+
+	UPDATE instancia_zumbi
+		SET vida_atual = get_vida_maxima_zumbi(get_tipo_zumbi_from_instancia(_id_instancia_zumbi)),
+			quadrado = _id_novo_quadrado
+		WHERE id = _id_instancia_zumbi;
+
+	UPDATE player p SET dinheiro = p.dinheiro + get_dinheiro_instancia_zumbi(_id_instancia_zumbi) WHERE id = _id_player;
+
+	INSERT INTO morte (instancia_zumbi, player, vitorioso) VALUES (_id_instancia_zumbi, _id_player, 'player');
+
+END;
+$$ LANGUAGE plpgsql;
