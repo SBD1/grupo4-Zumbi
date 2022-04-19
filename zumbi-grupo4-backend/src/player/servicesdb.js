@@ -10,6 +10,5 @@ export const getPlayerInfo = async (idPlayer) => {
   `; // Select query
 
   return await getDBConnection(query);
-  // console.log('mensagem ai', client.end());
   // client.end();
 }
