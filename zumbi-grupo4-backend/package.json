@@ -1,0 +1,24 @@
+{
+  "name": "grupo4-Zumbi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "createDB": "node src/database/migration/createDB.js",
+    "dropDB": "node src/database/migration/dropDB.js",
+    "createTables": "node src/database/migration/create-tables.js",
+    "seed": "node src/database/seeds/insertData.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "express": "^4.17.3",
+    "pg": "^8.7.3",
+    "pgtools": "^0.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15",
+    "sucrase": "^3.21.0"
+  }
+}
