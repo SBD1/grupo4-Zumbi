@@ -93,6 +93,36 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+-- Experiencia que o zumbi derruba ao morrer
+CREATE OR REPLACE FUNCTION get_exp_zumbi(tipo_zumbi VARCHAR)
+    RETURNS INTEGER AS $$
+BEGIN
+  RETURN 
+  (SELECT
+    case
+        when  tipo_zumbi = 'corredores' then corredores.experiencia
+        when  tipo_zumbi = 'estaladores' then estaladores.experiencia
+        when  tipo_zumbi = 'baiacu' then baiacu.experiencia
+        when  tipo_zumbi = 'gosmento' then gosmento.experiencia
+    end as dano
+    FROM
+        corredores,
+        estaladores,
+        baiacu,
+        gosmento);
+END
+$$ LANGUAGE plpgsql;
+
+-- Atualiza XP do player ao matar um zumbi
+CREATE OR REPLACE FUNCTION update_exp_player(_id_zumbi INTEGER, _id_player INTEGER)
+    RETURNS INTEGER AS $$
+BEGIN
+  UPDATE player SET exp_acumulado = exp_acumulado + get_exp_zumbi(get_tipo_zumbi(_id_zumbi)) WHERE id=_id_player;
+  RETURN 
+  (SELECT exp_acumulado FROM player WHERE id=_id_player);
+END
+$$ LANGUAGE plpgsql;
+
 -- pega todos items com tipo, nome e preço
 CREATE OR REPLACE FUNCTION get_items()
     RETURNS table (
@@ -273,7 +303,7 @@ END
 $$ LANGUAGE plpgsql;
 
 
--- pega todos items com tipo, nome e preço
+-- pega todos quadrados de uma respectiva zona
 CREATE OR REPLACE FUNCTION get_quadrados_zona(_id_zona INTEGER)
     RETURNS table (
     	id INTEGER,
@@ -289,4 +319,55 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+-- Mostrar missões do player
+CREATE OR REPLACE FUNCTION get_missao_player(_id_player INTEGER)
+    RETURNS table (
+		id INTEGER,
+    	titulo VARCHAR,
+		descricao VARCHAR,
+		recompensa moeda,
+		npc INTEGER,
+		completa INTEGER
+    ) AS $$
+BEGIN
+	RETURN QUERY
+		(
+			SELECT
+				missao.id,
+				missao.titulo,
+				missao.descricao,
+				missao.recompensa,
+				missao.npc,
+				mp.completa
+			FROM 
+				missao
+				inner join
+				missaoPlayer mp
+				on missao.id = mp.missao
+			WHERE mp.player=_id_player
+		);
+END
+$$ LANGUAGE plpgsql;
 
+-- Mostrar todas missões do NPC
+CREATE OR REPLACE FUNCTION get_missao_npc(_id_npc INTEGER)
+    RETURNS table (
+		id INTEGER,
+    	titulo VARCHAR,
+		descricao VARCHAR,
+		recompensa moeda
+    ) AS $$
+BEGIN
+	RETURN QUERY
+		(
+			SELECT
+				missao.id,
+				missao.titulo,
+				missao.descricao,
+				missao.recompensa
+			FROM 
+				missao
+			WHERE npc=_id_npc
+		);
+END
+$$ LANGUAGE plpgsql;

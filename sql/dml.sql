@@ -158,6 +158,12 @@ INSERT INTO instancia_item (id_item, player, bolsa, quadrado) values
 (1, null, null, 2),
 (4, 1, null, null);
 
+INSERT INTO missao (titulo, descricao, recompensa, npc) VALUES
+('Bem vindo à Zumbizera', 'Sua primeira missão é ter uma missão', 1, 2);
+
+INSERT INTO missaoPlayer (missao, player, completa) VALUES
+(1,2,1);
+
 -- pegar informações de uma comida
 select * from item i inner join comida c on i.id = c.id;
 

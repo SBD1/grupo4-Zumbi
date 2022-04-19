@@ -98,7 +98,7 @@ CREATE TABLE player (
   velocidade integer not null, 
   nome varchar(255),
   exp_acumulado integer not null, 
-  dinheiro moeda not null
+  dinheiro moeda not null,
   quadrado integer,
   foreign key (quadrado) references quadrado (id)
 );
@@ -231,7 +231,7 @@ CREATE TABLE missao (
   id serial primary key,
   titulo varchar(255),
   descricao varchar(255), 
-  recompensa integer not null,
+  recompensa moeda not null,
   
   npc integer not null,
 
