@@ -123,7 +123,7 @@ CREATE TABLE nivel (
 CREATE TABLE bolsa (
   id serial primary key,
   tamanho integer not null,
-  player integer not null,  
+  player integer not null,
   foreign key (player) references player (id)
 );
 

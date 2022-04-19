@@ -286,6 +286,7 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD
 CREATE OR REPLACE FUNCTION pegar_quadrado_player(_id_player INTEGER)
     RETURNS VARCHAR AS $$
 BEGIN
@@ -371,3 +372,37 @@ BEGIN
 		);
 END
 $$ LANGUAGE plpgsql;
+=======
+CREATE OR REPLACE PROCEDURE dropar_item_no_quadrado(_id_instancia_item INTEGER, _id_quadrado INTEGER)
+AS $$
+BEGIN
+    UPDATE instancia_item SET quadrado = _id_quadrado, bolsa = null
+      WHERE id = _id_instancia_item;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE comprar_item(_id_item INTEGER, _id_player INTEGER, _id_vendedor INTEGER)
+AS $$
+BEGIN
+    UPDATE player AS p SET dinheiro = p.dinheiro - e.preco
+	FROM (SELECT preco FROM get_estoque_vendendor(_id_vendedor) WHERE id_item = _id_item) e WHERE id = _id_player;
+
+	INSERT INTO instancia_item (id_item, player, bolsa, quadrado) values
+	(_id_item, null, (SELECT id FROM bolsa WHERE player = _id_player), null);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE vender_item(_id_instancia_item INTEGER, _id_player INTEGER)
+AS $$
+BEGIN
+
+	UPDATE player AS p SET dinheiro = p.dinheiro + e.preco
+	FROM (select preco from get_instancia_items_nomes_and_precos() where id = _id_instancia_item) e WHERE id = _id_player;
+
+	DELETE FROM instancia_item WHERE id = _id_instancia_item;
+
+	EXCEPTION WHEN OTHERS THEN 
+		ROLLBACK;
+
+END; $$ LANGUAGE plpgsql;
+>>>>>>> b2b1293 (Adicionando compra e venda de itens)

@@ -164,32 +164,53 @@ INSERT INTO missao (titulo, descricao, recompensa, npc) VALUES
 INSERT INTO missaoPlayer (missao, player, completa) VALUES
 (1,2,1);
 
--- pegar informações de uma comida
+-- listar informações de uma comida
 select * from item i inner join comida c on i.id = c.id;
 
--- pegar informações de uma armadura
+-- listar informações de uma armadura
 select * from item i inner join armadura a on i.id = a.id;
 
--- pegar informações de uma municao
+-- listar informações de uma municao
 select * from item i inner join municao m on i.id = m.id;
 
--- pegar informações de uma adrenalina 
+-- listar informações de uma adrenalina 
 select * from item i inner join adrenalina a on i.id = a.id;
 
--- pegar informações de uma arma_fogo 
+-- listar informações de uma arma_fogo 
 select * from item i inner join arma_fogo af on i.id = af.id;
 
--- pegar informações de uma arma_branca
+-- listar informações de uma arma_branca
 select * from item i inner join arma_branca ab on i.id = ab.id;
+
+
+-- listar moedas de um quadrado
+select moedas from quadrado q where id = 1
 
 
 -- é preciso rodar as storedProcedures para rodar os comandos abaixo
 
--- pegar todos os items de uma bolsa
+-- listar todos os items de uma bolsa
 select * from get_instancia_items_nomes_and_precos() as i where  i.bolsa = 2;
 
--- pegar todos os items de um player
+-- listar todos os items de um player
 select * from get_instancia_items_nomes_and_precos() as i where  i.player = 1;
 
--- pegar todos os items de um quadrado
+-- listar todos os items de um quadrado
 select * from get_instancia_items_nomes_and_precos() as i where  i.quadrado = 1;
+
+-- listar moedas de um quadrado
+select moedas from quadrado q where id = 1
+
+
+
+-- transaction de pegar dinheiro do quadrado
+BEGIN;
+
+	UPDATE PLAYER AS P SET DINHEIRO = P.DINHEIRO + Q.MOEDAS 
+	
+	FROM (SELECT MOEDAS FROM QUADRADO WHERE ID = 1) Q WHERE ID = 2;
+	
+	UPDATE QUADRADO SET MOEDAS = 0 WHERE ID = 1;
+
+COMMIT;
+
