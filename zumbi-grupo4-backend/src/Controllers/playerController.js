@@ -1,4 +1,4 @@
-import { getPlayerInfo } from "./servicesdb";
+import { getPlayerInfo } from "../Services/PlayerServicesDB";
 
 class PlayerController {
   async getPlayerInfo(req, res) {

@@ -12,3 +12,4 @@ export const getPlayerInfo = async (idPlayer) => {
   return await getDBConnection(query);
   // client.end();
 }
+
