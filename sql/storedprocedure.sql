@@ -427,12 +427,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-
-
-
-
-
-
 CREATE OR REPLACE FUNCTION get_dinheiro_instancia_zumbi (_id_instancia_zumbi INTEGER)
     RETURNS moeda AS $$
 BEGIN
@@ -479,7 +473,7 @@ BEGIN
 
 	UPDATE player p SET dinheiro = p.dinheiro + get_dinheiro_instancia_zumbi(_id_instancia_zumbi) WHERE id = _id_player;
 
-	INSERT INTO morte (instancia_zumbi, player, vitorioso) VALUES (_id_instancia_zumbi, _id_player, 'player');
+	INSERT INTO morte(player, zumbi, vitorioso) VALUES (_id_player, _id_instancia_zumbi, 'player');
 
 END;
 $$ LANGUAGE plpgsql;

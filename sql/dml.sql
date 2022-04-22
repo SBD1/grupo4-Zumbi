@@ -184,7 +184,7 @@ select * from item i inner join arma_branca ab on i.id = ab.id;
 
 
 -- listar moedas de um quadrado
-select moedas from quadrado q where id = 1
+select moedas from quadrado q where id = 1;
 
 
 -- é preciso rodar as storedProcedures para rodar os comandos abaixo
@@ -199,14 +199,14 @@ select * from get_instancia_items_nomes_and_precos() as i where  i.player = 1;
 select * from get_instancia_items_nomes_and_precos() as i where  i.quadrado = 1;
 
 -- listar moedas de um quadrado
-select moedas from quadrado q where id = 1
+select moedas from quadrado q where id = 1;
 
 
 
 -- transaction de pegar dinheiro do quadrado
 BEGIN;
 
-	UPDATE PLAYER AS P SET DINHEIRO = P.DINHEIRO + Q.MOEDAS 
+	UPDATE PLAYER AS P SET DINHEIRO = P.DINHEIRO + Q.MOEDAS
 	
 	FROM (SELECT MOEDAS FROM QUADRADO WHERE ID = 1) Q WHERE ID = 2;
 	

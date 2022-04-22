@@ -3,6 +3,7 @@ import PlayerController from './Controllers/playerController';
 import QuadradoController from './Controllers/quadradoController';
 import BolsaController from './Controllers/bolsaController';
 import ItemController from './Controllers/itemController';
+import ZumbiController from './Controllers/zumbiController';
 
 const routes = new Router();
 
@@ -23,6 +24,11 @@ routes.get('/bolsa/:bolsa_id', BolsaController.getItemsBolsa);
 //rotas Item
 //pega detalhes de uma instancia de item 
 routes.get('/item/:item_id', ItemController.getItem);
+
+//rotas Zumbi
+//morte zumbi
+routes.post('/zumbi', ZumbiController.postMorteZumbi);
+
 
 
 export default routes;

@@ -473,16 +473,17 @@ module.exports = {
   CREATE OR REPLACE PROCEDURE matar_zumbi(_id_instancia_zumbi INTEGER, _id_player INTEGER, _id_novo_quadrado INTEGER)
   AS $$
   BEGIN
-
-  UPDATE instancia_zumbi
-  SET vida_atual = get_vida_maxima_zumbi(get_tipo_zumbi_from_instancia(_id_instancia_zumbi)),
-    quadrado = _id_novo_quadrado
-  WHERE id = _id_instancia_zumbi;
-
-  UPDATE player p SET dinheiro = p.dinheiro + get_dinheiro_instancia_zumbi(_id_instancia_zumbi) WHERE id = _id_player;
-
-  INSERT INTO morte (instancia_zumbi, player, vitorioso) VALUES (_id_instancia_zumbi, _id_player, 'player');
-
+  
+    UPDATE instancia_zumbi
+      SET vida_atual = get_vida_maxima_zumbi(get_tipo_zumbi_from_instancia(_id_instancia_zumbi)),
+        quadrado = _id_novo_quadrado
+      WHERE id = _id_instancia_zumbi;
+  
+    UPDATE player p SET dinheiro = p.dinheiro + get_dinheiro_instancia_zumbi(_id_instancia_zumbi) WHERE id = _id_player;
+  
+    
+    INSERT INTO morte(player, zumbi, vitorioso) VALUES (_id_player, _id_instancia_zumbi, 'player');
+  
   END;
   $$ LANGUAGE plpgsql;
   `
