@@ -23,7 +23,7 @@ cd zumbi-grupo4-backend
 docker-compose up
 ```
 
-4. Com o docker instalado, primeiramente rode o yarn para instalar as dependencias, em seguida rode os comandos:
+4. Com o docker instalado, primeiramente rode o yarn install, para instalar as dependencias, em seguida rode os comandos:
 ```
 yarn createDB
 ```
@@ -34,6 +34,9 @@ yarn createTables
 
 ```
 yarn seed
+```
+```
+yarn procedure
 ```
 
 Com os passos acima, o banco estará criado e você pode acessa-lo pelo [Dbaver](https://dbeaver.io/download/), ou qualquer outra ferramenta que preferir. Para acessa-lo, utilize as credenciais disponibilizadas no arquivo .env na raiz do projeto.
