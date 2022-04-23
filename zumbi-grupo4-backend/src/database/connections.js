@@ -16,7 +16,7 @@ async function getDBConnection(query, returToCaller=true) {
   const resp = await connection.query(query);
   connection.end();
   if(returToCaller) {
-    return resp.rows[0];
+    return resp.rows;
   }
   return;
 };

@@ -24,3 +24,27 @@ export const getNpcInfo = async (idNpc) => {
   // client.end();
 }
 
+export const comprarItem = async (id_item, id_player, id_vendedor) => {
+  // client.connect();
+  let message = 'item comprado com sucesso!';
+  let query = 
+  `
+    BEGIN;
+      CALL comprar_item(${id_item}, ${id_player}, ${id_vendedor});
+    COMMIT;
+  `; // Select query
+
+  try {
+    await getDBConnection(query);
+  } catch (error) {
+    query = 'ROLLBACK;'
+    await getDBConnection(query);
+    message = 'Ocorreu um erro ao tentar comprar item'
+  }
+
+  return {
+    message
+  };
+  // client.end();
+}
+

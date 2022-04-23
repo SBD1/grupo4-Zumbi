@@ -43,8 +43,9 @@ routes.post('/item', ItemController.postDroparItemNoQuadrado);
 routes.post('/zumbi', ZumbiController.postMorteZumbi);
 
 //rotas NPC
+//informações npc (falas, estoque, missões)
 routes.get('/npc/:npc_id', NpcController.getNpcInfo);
 
-
+routes.post('/npc/comprar', NpcController.comprarItem);
 
 export default routes;
