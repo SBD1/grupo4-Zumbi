@@ -9,7 +9,8 @@
     "dropDB": "node src/database/migration/dropDB.js",
     "createTables": "node src/database/migration/create-tables.js",
     "seed": "node src/database/seeds/insertData.js",
-    "procedures": "node src/database/procedures/insertProcedures.js"
+    "procedures": "node src/database/procedures/insertProcedures.js",
+    "triggers": "node src/database/triggers/insertTriggers.js"
   },
   "dependencies": {
     "axios": "^0.26.1",
