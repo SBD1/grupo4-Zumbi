@@ -48,4 +48,10 @@ routes.get('/npc/:npc_id', NpcController.getNpcInfo);
 
 routes.post('/npc/comprar', NpcController.comprarItem);
 
+routes.post('/npc/comprar', NpcController.comprarItem);
+
+routes.post('/npc/vender', NpcController.venderItem);
+
+routes.post('/npc/nova-missao', NpcController.pegarMissao);
+
 export default routes;
