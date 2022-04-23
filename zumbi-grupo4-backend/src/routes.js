@@ -17,6 +17,9 @@ routes.get('/quadrado/:quadrado_id', QuadradoController.getQuadradoInfo);
 //busca os quadrados de uma zona
 routes.get('/quadrado/zona/:zona_id', QuadradoController.getLados);
 
+//post de item do quadrado
+routes.post('/quadrado/pega-item', QuadradoController.postPegaItemQuadrado),
+
 //rotas bolsa
 //pega items de uma bolsa
 routes.get('/bolsa/:bolsa_id', BolsaController.getItemsBolsa);
