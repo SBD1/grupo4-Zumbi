@@ -20,6 +20,9 @@ routes.get('/quadrado/zona/:zona_id', QuadradoController.getLados);
 //post de item do quadrado
 routes.post('/quadrado/pega-item', QuadradoController.postPegaItemQuadrado),
 
+//post de todos items do quadrado
+routes.post('/quadrado/pega-todos-itens', QuadradoController.postAllItens)
+
 //rotas bolsa
 //pega items de uma bolsa
 routes.get('/bolsa/:bolsa_id', BolsaController.getItemsBolsa);

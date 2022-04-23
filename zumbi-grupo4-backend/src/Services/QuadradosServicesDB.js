@@ -49,10 +49,37 @@ export const getQuadradoInfo = async (idQuadrado) => {
 export const postPegaItem = async (idBolsa, idInstanciaItem) => {
   const query = `CALL pegar_item_do_quadrado(${idBolsa}, ${idInstanciaItem})`
   try{
-    await getDBConnection(query)
+    await getDBConnection(query, false);
     return true;
   }catch(error){
     console.error(error.message)
+    throw new Error(error.message);
+  }
+}
+
+export const postPegaTodosItens = async (idInstanciaItem, idPlayer, idBolsa, idQuadrado) => {
+  const queries = {
+    1:`
+      BEGIN;
+
+      UPDATE PLAYER AS P SET DINHEIRO = P.DINHEIRO + Q.MOEDAS
+
+      FROM (SELECT MOEDAS FROM QUADRADO WHERE ID = ${idQuadrado}) Q WHERE ID = ${idPlayer};
+
+      UPDATE QUADRADO SET MOEDAS = 0 WHERE ID = ${idQuadrado};
+
+      COMMIT;`,
+  2:`
+      UPDATE instancia_item SET bolsa = ${idBolsa}, quadrado = NULL, player = ${idPlayer} WHERE id = ${idInstanciaItem};
+  `}
+
+  try {
+    for(let i of Object.keys(queries)){
+      await getDBConnection(queries[i], false);
+    }
+    return true;
+  }catch(error) {
+    console.error(error.message);
     throw new Error(error.message);
   }
 }
