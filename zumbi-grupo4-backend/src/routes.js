@@ -31,6 +31,9 @@ routes.get('/bolsa/:bolsa_id', BolsaController.getItemsBolsa);
 //pega detalhes de uma instancia de item 
 routes.get('/item/:item_id', ItemController.getItem);
 
+//Dropa item no quadrado
+routes.post('/item', ItemController.postDroparItemNoQuadrado);
+
 //rotas Zumbi
 //morte zumbi
 routes.post('/zumbi', ZumbiController.postMorteZumbi);
