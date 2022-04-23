@@ -4,6 +4,7 @@ import QuadradoController from './Controllers/quadradoController';
 import BolsaController from './Controllers/bolsaController';
 import ItemController from './Controllers/itemController';
 import ZumbiController from './Controllers/zumbiController';
+import NpcController from './Controllers/npcController';
 
 const routes = new Router();
 
@@ -40,6 +41,9 @@ routes.post('/item', ItemController.postDroparItemNoQuadrado);
 //rotas Zumbi
 //morte zumbi
 routes.post('/zumbi', ZumbiController.postMorteZumbi);
+
+//rotas NPC
+routes.get('/npc/:npc_id', NpcController.getNpcInfo);
 
 
 

@@ -57,7 +57,7 @@ export const postPegaItem = async (idBolsa, idInstanciaItem) => {
   }
 }
 
-export default postDinheiroQuadrado = async (idQuadrado, idPlayer) => {
+export const postDinheiroQuadrado = async (idQuadrado, idPlayer) => {
   const query = 
     `BEGIN;
 
