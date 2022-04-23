@@ -57,26 +57,33 @@ export const postPegaItem = async (idBolsa, idInstanciaItem) => {
   }
 }
 
-export const postPegaTodosItens = async (idInstanciaItem, idPlayer, idBolsa, idQuadrado) => {
-  const queries = {
-    1:`
-      BEGIN;
+export default postDinheiroQuadrado = async (idQuadrado, idPlayer) => {
+  const query = 
+    `BEGIN;
 
-      UPDATE PLAYER AS P SET DINHEIRO = P.DINHEIRO + Q.MOEDAS
+    UPDATE PLAYER AS P SET DINHEIRO = P.DINHEIRO + Q.MOEDAS
 
-      FROM (SELECT MOEDAS FROM QUADRADO WHERE ID = ${idQuadrado}) Q WHERE ID = ${idPlayer};
+    FROM (SELECT MOEDAS FROM QUADRADO WHERE ID = ${idQuadrado}) Q WHERE ID = ${idPlayer};
 
-      UPDATE QUADRADO SET MOEDAS = 0 WHERE ID = ${idQuadrado};
+    UPDATE QUADRADO SET MOEDAS = 0 WHERE ID = ${idQuadrado};
 
-      COMMIT;`,
-  2:`
-      UPDATE instancia_item SET bolsa = ${idBolsa}, quadrado = NULL, player = ${idPlayer} WHERE id = ${idInstanciaItem};
-  `}
+    COMMIT;`
 
   try {
-    for(let i of Object.keys(queries)){
-      await getDBConnection(queries[i], false);
-    }
+    await getDBConnection(query, false);
+  }catch(error) {
+    console.log(error.message);
+  }
+}
+
+export const postPegaTodosItens = async (idInstanciaItem, idPlayer, idBolsa) => {
+  const query = 
+  `
+    UPDATE instancia_item SET bolsa = ${idBolsa}, quadrado = NULL, player = ${idPlayer} WHERE id = ${idInstanciaItem};
+  `
+
+  try {
+    await getDBConnection(query, false);
     return true;
   }catch(error) {
     console.error(error.message);

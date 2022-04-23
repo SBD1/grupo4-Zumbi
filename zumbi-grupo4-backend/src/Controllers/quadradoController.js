@@ -2,7 +2,8 @@ import {
   getQuadradoInfo as getQuadradoInfoService, 
   getLados as getZonaQuadradosService, 
   postPegaItem,
-  postPegaTodosItens
+  postPegaTodosItens,
+  postDinheiroQuadrado
 } from "../Services/QuadradosServicesDB";
 
 class QuadradoController {
@@ -44,11 +45,23 @@ class QuadradoController {
     return res.status(201).send('Post de pegar item do quadrado realizado com sucesso!');
   }
 
-  async postAllItens(req, res) {
-    const { id_instancia_item, id_bolsa, id_player, id_quadrado } = req.body;
+  async postDinheiroQuadrado(req, res) {
+    const { id_player, id_quadrado } = req.body;
 
     try {
-      await postPegaTodosItens(id_instancia_item, id_bolsa, id_player, id_quadrado);
+      await postDinheiroQuadrado(id_player, id_quadrado);
+    }catch(error) {
+      console.log(error.message);
+    }
+
+    return res.status(201).send('Dinheiro retirado do quadrado com sucesso!');
+  }
+
+  async postAllItens(req, res) {
+    const { id_instancia_item, id_bolsa, id_player } = req.body;
+
+    try {
+      await postPegaTodosItens(id_instancia_item, id_bolsa, id_player);
     }catch(error) {
       console.log(error.message);
     }

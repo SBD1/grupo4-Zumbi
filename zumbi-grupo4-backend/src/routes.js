@@ -18,10 +18,13 @@ routes.get('/quadrado/:quadrado_id', QuadradoController.getQuadradoInfo);
 routes.get('/quadrado/zona/:zona_id', QuadradoController.getLados);
 
 //post de item do quadrado
-routes.post('/quadrado/pega-item', QuadradoController.postPegaItemQuadrado),
+routes.post('/quadrado/pega-item', QuadradoController.postPegaItemQuadrado);
 
 //post de todos items do quadrado
-routes.post('/quadrado/pega-todos-itens', QuadradoController.postAllItens)
+routes.post('/quadrado/pega-todos-itens', QuadradoController.postAllItens);
+
+//post de pegar dinheiro do quadrado
+routes.post('/quadrado/dinheiro-quadrado', QuadradoController.postDinheiroQuadrado);
 
 //rotas bolsa
 //pega items de uma bolsa
