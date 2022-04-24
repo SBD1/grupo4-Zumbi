@@ -36,17 +36,15 @@ routes.get('/bolsa/:bolsa_id', BolsaController.getItemsBolsa);
 routes.get('/item/:item_id', ItemController.getItem);
 
 //Dropa item no quadrado
-routes.post('/item', ItemController.postDroparItemNoQuadrado);
+routes.post('/item/dropar', ItemController.postDroparItemNoQuadrado);
 
 //rotas Zumbi
 //morte zumbi
-routes.post('/zumbi', ZumbiController.postMorteZumbi);
+routes.post('/zumbi/matar', ZumbiController.postMorteZumbi);
 
 //rotas NPC
 //informações npc (falas, estoque, missões)
 routes.get('/npc/:npc_id', NpcController.getNpcInfo);
-
-routes.post('/npc/comprar', NpcController.comprarItem);
 
 routes.post('/npc/comprar', NpcController.comprarItem);
 
