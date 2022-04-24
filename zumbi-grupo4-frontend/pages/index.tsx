@@ -6,48 +6,7 @@ import MoveButton from '../components/MoveButton'
 import Terminal from '../components/Terminal'
 import styles from '../styles/home.module.css'
 import api from './api/api'
-
-interface quadrado {
-  lado_leste: Number,
-  lado_oeste: Number,
-  lado_sul: Number,
-  lado_norte: Number,
-  id: Number
-}
-
-interface zumbi {
-  instancia_zumbi_id: Number,
-  vida_atual: Number,
-  dinheiro: Number,
-  tipoespecializacao: string
-}
-
-interface moedas {
-  qtd: Number,
-}
-
-interface itens {
-  id: Number,
-  player: Number | null,
-  bolsa: Number | null,
-  quadrado: Number | null,
-  id_item: Number,
-  tipo_especializacao: string,
-  nome: string,
-  preco: Number | null
-}
-
-interface npcs {
-  instancia_npc_id: Number,
-  tipo_especializacao: string
-}
-
-interface quadradoInfo {
-  zumbi: Array<zumbi>,
-  moedas: Array<moedas>,
-  itens: Array<itens>,
-  npcs: Array<npcs>
-}
+import { quadrado, quadradoInfo } from '../interfaces'
 
 const Home: NextPage = () => {
   
@@ -121,7 +80,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Terminal />
+      <Terminal quadradoInfo={quadradoInfo} />
         <div  className={styles.containerMap} style={{gridTemplateColumns: `repeat(${Math.sqrt(zone.length)}, 1fr)`}}>
           {zone.map((res: any, index1: number) =>
             <div key={`${index1}${res}`} className={styles.divPositionMap}>
