@@ -20,9 +20,9 @@ export const getQuadradoInfo = async (idQuadrado) => {
         iz.vida_atual,
         iz.dinheiro,
         z.tipoespecializacao
-      FROM quadrado q
-      JOIN instancia_zumbi iz ON iz.quadrado = ${Number(idQuadrado)}
-      JOIN zumbi z ON z.id = iz.id_zumbi;
+      FROM instancia_zumbi iz
+      LEFT JOIN zumbi z ON z.id = iz.id_zumbi
+      WHERE iz.quadrado = ${Number(idQuadrado)};
     `,
 
     moedas: `SELECT moedas as qtd FROM quadrado WHERE id = ${Number(idQuadrado)};` ,
@@ -32,9 +32,9 @@ export const getQuadradoInfo = async (idQuadrado) => {
       SELECT 
             inpc.id AS instancia_npc_id,
             n.tipo_especializacao
-      FROM quadrado q
-      JOIN instancia_npc inpc ON inpc.quadrado = ${Number(idQuadrado)}
-      JOIN npc n ON n.id = inpc.id_npc;
+      FROM instancia_npc inpc
+      JOIN npc n ON n.id = inpc.id_npc
+      WHERE inpc.quadrado = ${Number(idQuadrado)};
     `
   }
 
