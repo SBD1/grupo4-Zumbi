@@ -17,53 +17,61 @@ export default function Terminal({ quadradoInfo }: props) {
                     - Você iniciou sua jornada contra os zumbis!
                 </div>
                 {quadradoInfo ? (
-                    <div className={styles.textBody}>
+                    <div>
                         {quadradoInfo.zumbi && quadradoInfo.zumbi.length ? (
                             <div>
-                                <div>
-                                    Zumbis no quadrado!
+                                <div className={styles.textBody}>
+                                    Zumbis
                                 </div>
+                                <ul>
                                 {quadradoInfo.zumbi.map(value => (
-                                    <p key={`${value.instancia_zumbi_id}`}>
+                                    <li key={`${value.instancia_zumbi_id}`}>
                                         {value.tipoespecializacao}
-                                    </p>
+                                    </li>
                                 ))}
+                                </ul>
                             </div>
                         ) : null}
                         {quadradoInfo.moedas && quadradoInfo.moedas.length ? (
                             <div>
-                                <div>
-                                    Moedas no quadrado!
+                                <div className={styles.textBody}>
+                                    Moedas
                                 </div>
-                                {quadradoInfo.moedas.map((value, index) => (
-                                    <p key={`${value.qtd}-${index}`}>
-                                        {value.qtd}
-                                    </p>
-                                ))}
+                                <ul>
+                                    {quadradoInfo.moedas.map((value, index) => (
+                                        <li key={`${value.qtd}-${index}`}>
+                                            {value.qtd}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         ) : null}
                         {quadradoInfo.npcs && quadradoInfo.npcs.length ? (
                             <div>
-                                <div>
-                                    NPCs no quadrado!
+                                <div className={styles.textBody}>
+                                    NPCs
                                 </div>
-                                {quadradoInfo.npcs.map((value, index) => (
-                                    <p key={`${value.instancia_npc_id}-${index}`}>
-                                        {value.tipo_especializacao}
-                                    </p>
-                                ))}
+                                <ul>
+                                    {quadradoInfo.npcs.map((value, index) => (
+                                        <li key={`${value.instancia_npc_id}-${index}`}>
+                                            {value.tipo_especializacao}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         ) : null}
                         {quadradoInfo.itens && quadradoInfo.itens.length ? (
                             <div>
-                                <div>
-                                    Itens no quadrado!
+                                <div className={styles.textBody}>
+                                    Itens
                                 </div>
+                                <ul>
                                 {quadradoInfo.itens.map((value, index) => (
-                                    <p key={`${value.id}-${index}`}>
+                                    <li key={`${value.id}-${index}`}>
                                         {value.nome}
-                                    </p>
+                                    </li>
                                 ))}
+                                </ul>
                             </div>
                         ) : null}
                     </div>
