@@ -14,6 +14,7 @@ const Home: NextPage = () => {
   const [zone, setZone] = useState<Array<quadrado>>([])
   const [quadradoInfo, setQuadradoInfo] = useState<quadradoInfo>({} as quadradoInfo)
   const [playerInfo, setPlayerInfo] = useState<player>({} as player)
+  const [disabledMove, setDesabledMove] = useState<boolean>(false)
 
   const [currentPosition, setCurrentPosition] = useState<quadrado>({
     lado_leste: 0,
@@ -40,6 +41,7 @@ const Home: NextPage = () => {
     })
     const response = await api.get(`/quadrado/${heroPosition}`)
     setQuadradoInfo(response.data)
+    setDesabledMove(false)
   }
 
   const getPlayer = async () => {
@@ -69,23 +71,27 @@ const Home: NextPage = () => {
     if (currentPosition.lado_leste) {
       setHeroPosition(currentPosition.lado_leste)
     }
+    setDesabledMove(true)
   }
   function moveLeft() {
     if (currentPosition.lado_oeste) {
       setHeroPosition(currentPosition.lado_oeste)
     }
+    setDesabledMove(true)
   }
 
   function moveUp() {
     if (currentPosition.lado_norte) {
       setHeroPosition(currentPosition.lado_norte)
     }
+    setDesabledMove(true)
   }
 
   function moveDown() {
     if (currentPosition.lado_sul) {
       setHeroPosition(currentPosition.lado_sul)
     }
+    setDesabledMove(true)
   }
 
   return (
@@ -105,7 +111,7 @@ const Home: NextPage = () => {
         </div>
 
       <div className={styles.buttons}>
-        <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp}/>
+        <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp} disabledWait={disabledMove}/>
         <Button color="primary">
           Atacar
         </Button>

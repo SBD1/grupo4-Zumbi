@@ -17,6 +17,9 @@
     height: 3rem;
     text-align: center;
 }
+.buttonSize:disabled{
+    cursor: not-allowed;
+}
 .middleButtons{
     display: flex;
     flex-direction: row;
