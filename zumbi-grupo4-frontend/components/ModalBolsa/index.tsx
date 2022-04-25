@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import Button from '../Button';
 import { player, itens } from '../../interfaces';
 import api from '../../pages/api/api';
+import SmallButton from '../SmallButton';
 
 interface boolProps {
     openModal: boolean,
@@ -27,6 +28,15 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
         setBolsaInfo(response.data || [])
     }
 
+    const droparItem = async (id_item: Number) => {
+        await api.post('/item/dropar', {
+            item_id: id_item,
+            quadrado_id: playerInfo.quadrado
+        }).then((res) => {
+            console.log(res, 'teste')
+        })
+    }
+
     useEffect(() => {
         getPlayer()
         getBolsaItens()
@@ -41,12 +51,17 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
             <div className={styles.bolsaItens}>
                 {bolsaInfo.map((item, index) =>
                     <div className={styles.divButton}>
-                        <button onClick={() => setItemInfo(!itemInfo)} key={index} className={styles.bolsaItem}>
-                            {index + 1}. {item.nome}
-                        </button>
+                        <div >
+                            <button onClick={() => setItemInfo(!itemInfo)} key={index} className={styles.bolsaItem}>
+                                {index + 1}. {item.nome}
+                            </button>
+                        </div>
                         {itemInfo && <div className={styles.divDescription}>
                             <p><b>Preço:</b> {item.preco} moedas</p>
                             <p><b>Tipo de arma:</b> {item.tipo_especializacao}</p>
+                            <SmallButton onClick={()=>droparItem(item.id_item)}>
+                                Dropar item
+                            </SmallButton>
                         </div>}
                     </div>
                 )}
