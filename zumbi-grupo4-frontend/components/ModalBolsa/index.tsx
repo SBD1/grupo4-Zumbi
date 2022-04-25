@@ -5,6 +5,7 @@ import Button from '../Button';
 import { player, itens } from '../../interfaces';
 import api from '../../pages/api/api';
 import SmallButton from '../SmallButton';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface boolProps {
     openModal: boolean,
@@ -25,16 +26,17 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
 
     const getBolsaItens = async () => {
         const response = await api.get(`bolsa/${playerInfo.bolsa}`)
-        setBolsaInfo(response.data || [])
+        setBolsaInfo(response.data)
     }
 
     const droparItem = async (id_item: Number) => {
         await api.post('/item/dropar', {
             item_id: id_item,
             quadrado_id: playerInfo.quadrado
-        }).then((res) => {
-            console.log(res, 'teste')
-        })
+        }).then(() => toast.success('Item dropado com sucesso!'))
+        .catch(() => toast.error("Erro ao dropar o item, tente novamente :("))
+        
+        getBolsaItens()
     }
 
     useEffect(() => {
@@ -49,7 +51,8 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
             </div>
 
             <div className={styles.bolsaItens}>
-                {bolsaInfo.map((item, index) =>
+                {bolsaInfo !== null ? 
+                bolsaInfo.map((item, index) =>
                     <div className={styles.divButton}>
                         <div >
                             <button onClick={() => setItemInfo(!itemInfo)} key={index} className={styles.bolsaItem}>
@@ -64,12 +67,13 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
                             </SmallButton>
                         </div>}
                     </div>
-                )}
+                ): <div>Sua bolsa está vazia</div>}
             </div>
 
             <Button onclick={closeModal} color="secondary">
                 Fechar
             </Button>
+            <Toaster/>
         </Modal>
     )
 }

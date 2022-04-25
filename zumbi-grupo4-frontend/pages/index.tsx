@@ -17,6 +17,7 @@ const Home: NextPage = () => {
   const [playerInfo, setPlayerInfo] = useState<player>({} as player)
   const [disabledMove, setDesabledMove] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [atacarZumbi, setAtacarZumbi] = useState<boolean>(false)
 
   const [currentPosition, setCurrentPosition] = useState<quadrado>({
     lado_leste: 0,
@@ -56,7 +57,7 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    console.log(quadradoInfo)
+    console.log( quadradoInfo)
   }, [quadradoInfo])
 
   useEffect(() => {
@@ -107,6 +108,8 @@ const Home: NextPage = () => {
         quadradoId={heroPosition}
         atualizarQuadrado={getCurrentPosition}
         informacoesPlayer={playerInfo}
+        atacarZumbi={atacarZumbi}
+        setAtacarZumbi={setAtacarZumbi}
       />
         <div  className={styles.containerMap} style={{gridTemplateColumns: `repeat(${Math.sqrt(zone.length)}, 1fr)`}}>
           {zone.map((res: any, index1: number) =>
@@ -118,7 +121,7 @@ const Home: NextPage = () => {
 
       <div className={styles.buttons}>
         <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp} disabledWait={disabledMove}/>
-        <Button color="primary">
+        <Button disabled={quadradoInfo.zumbi.length === 0} onclick={()=>setAtacarZumbi(true)} color="primary" >
           Atacar
         </Button>
         <Button onclick={()=>setModalOpen(true)} color="primary">
@@ -126,9 +129,6 @@ const Home: NextPage = () => {
         </Button>
         <Button color="secondary">
           Recarregar
-        </Button>
-        <Button color="secondary">
-          Pegar
         </Button>
       </div>
       
