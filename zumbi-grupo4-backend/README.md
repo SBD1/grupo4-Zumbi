@@ -27,16 +27,17 @@ docker-compose up
 ```
 yarn createDB
 ```
-
 ```
 yarn createTables
 ```
-
 ```
 yarn seed
 ```
 ```
 yarn procedures
+```
+```
+yarn triggers
 ```
 
 Com os passos acima, o banco estará criado e você pode acessa-lo pelo [Dbaver](https://dbeaver.io/download/), ou qualquer outra ferramenta que preferir. Para acessa-lo, utilize as credenciais disponibilizadas no arquivo .env na raiz do projeto.

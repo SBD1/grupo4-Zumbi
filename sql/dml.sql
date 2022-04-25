@@ -14,53 +14,24 @@ INSERT INTO zona (nome, mapa) VALUES
 
 --INSERT: quadrado
 INSERT INTO quadrado (moedas, zona) VALUES
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1),
-(1,1);
-
---INSERT: referenciando quadrado
-UPDATE quadrado 
-SET lado_norte=null ,lado_sul=4 ,lado_leste=2 ,lado_oeste=null
-WHERE id = 1;
-
-UPDATE quadrado 
-SET lado_sul=5 ,lado_leste=3 ,lado_oeste=1
-WHERE id = 2;
-
-UPDATE quadrado 
-SET lado_sul=6 ,lado_oeste=2 
-WHERE id = 3;
-
-UPDATE quadrado 
-SET lado_norte=1 ,lado_sul=7 ,lado_leste=5
-WHERE id = 4;
-
-UPDATE quadrado 
-SET lado_norte=2 ,lado_sul=8 ,lado_leste=6 ,lado_oeste=4
-WHERE id = 5;
-
-UPDATE quadrado 
-SET lado_norte=3 ,lado_sul=9 ,lado_oeste=5
-WHERE id = 6;
-
-UPDATE quadrado 
-SET lado_norte=4 ,lado_leste=8
-WHERE id = 7;
-
-UPDATE quadrado 
-SET lado_norte=5 ,lado_leste=9 ,lado_oeste=7
-WHERE id = 8;
-
-UPDATE quadrado 
-SET lado_norte=6 ,lado_oeste=8
-WHERE id = 9;
-
+(5,1), (3,1), (0,1), (3,1), (0,1), (0,1), (7,1), (0,1), (10,1), (0,1),
+(7,1), (0,1), (0,1), (3,1), (0,1), (0,1), (3,1), (3,1), (3,1), (0,1),
+(0,1), (0,1), (20,1), (0,1), (0,1), (0,1), (0,1), (0,1), (0,1), (0,1),
+(6,1), (0,1), (8,1), (0,1), (0,1), (0,1), (8,1), (0,1), (4,1), (0,1),
+(0,1), (8,1), (0,1), (0,1), (0,1), (0,1), (0,1), (0,1), (0,1), (0,1),
+(0,1), (0,1), (10,1), (0,1), (0,1), (0,1), (0,1), (4,1), (0,1), (9,1),
+(0,1), (0,1), (4,1), (0,1), (0,1), (0,1), (8,1), (0,1), (0,1), (0,1),
+(0,1), (4,1), (4,1), (8,1), (0,1), (0,1), (0,1), (4,1), (4,1), (4,1),
+(0,1), (0,1), (4,1), (0,1), (8,1), (0,1), (4,1), (0,1), (0,1), (0,1),
+(10,1), (10,1), (0,1), (0,1), (0,1), (10,1), (10,1), (0,1), (0,1), (15,1),
+(5,2), (0,2), (8,2), (1,2), (8,2), (0,2), (0,2),
+(1,2), (0,2), (6,2), (0,2), (0,2), (0,2), (0,2),
+(2,2), (1,2), (0,2), (0,2), (0,2), (0,2), (0,2),
+(0,2), (5,2), (0,2), (0,2), (0,2), (0,2), (0,2),
+(0,2), (1,2), (0,2), (4,2), (8,2), (0,2), (0,2),
+(1,2), (1,2), (8,2), (3,2), (0,2), (9,2), (0,2),
+(8,2), (0,2), (0,2), (7,2), (0,2), (9,2), (9,2)
+;
 
 -- INSERT: player
 INSERT INTO player (vida, dano, velocidade, nome, exp_acumulado, dinheiro) VALUES 
