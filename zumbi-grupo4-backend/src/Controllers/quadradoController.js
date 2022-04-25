@@ -58,10 +58,10 @@ class QuadradoController {
   }
 
   async postAllItens(req, res) {
-    const { id_instancia_item, id_bolsa, id_player } = req.body;
+    const { id_quadrado, id_bolsa } = req.body;
 
     try {
-      await postPegaTodosItens(id_instancia_item, id_bolsa, id_player);
+      await postPegaTodosItens(id_quadrado, id_bolsa);
     }catch(error) {
       console.log(error.message);
     }

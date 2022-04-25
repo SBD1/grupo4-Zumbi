@@ -257,6 +257,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE PROCEDURE pegar_todos_items_do_quadrado(_id_quadrado INTEGER, _id_bolsa INTEGER)
+AS $$
+BEGIN
+    UPDATE instancia_item SET quadrado = null, bolsa = _id_bolsa
+      WHERE quadrado = _id_quadrado;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION get_estoque_vendendor(_id_vendedor INTEGER)
 RETURNS table (
     	id_item INTEGER,

@@ -1,6 +1,6 @@
 module.exports = {
   script: 
-  `
+  ` 
   CREATE OR REPLACE FUNCTION get_tipo_zumbi (_id_zumbi INTEGER)
   RETURNS VARCHAR AS $$
   BEGIN
@@ -259,6 +259,14 @@ module.exports = {
   END;
   $$ LANGUAGE plpgsql;
 
+  CREATE OR REPLACE PROCEDURE pegar_todos_items_do_quadrado(_id_quadrado INTEGER, _id_bolsa INTEGER)
+  AS $$
+  BEGIN
+  UPDATE instancia_item SET quadrado = null, bolsa = _id_bolsa
+    WHERE quadrado = _id_quadrado;
+  END;
+  $$ LANGUAGE plpgsql;
+
   CREATE OR REPLACE FUNCTION get_estoque_vendendor(_id_vendedor INTEGER)
   RETURNS table (
     id_item INTEGER,
@@ -429,12 +437,6 @@ module.exports = {
   $$ LANGUAGE plpgsql;
 
 
-
-
-
-
-
-
   CREATE OR REPLACE FUNCTION get_dinheiro_instancia_zumbi (_id_instancia_zumbi INTEGER)
   RETURNS moeda AS $$
   BEGIN
@@ -473,17 +475,16 @@ module.exports = {
   CREATE OR REPLACE PROCEDURE matar_zumbi(_id_instancia_zumbi INTEGER, _id_player INTEGER, _id_novo_quadrado INTEGER)
   AS $$
   BEGIN
-  
-    UPDATE instancia_zumbi
-      SET vida_atual = get_vida_maxima_zumbi(get_tipo_zumbi_from_instancia(_id_instancia_zumbi)),
-        quadrado = _id_novo_quadrado
-      WHERE id = _id_instancia_zumbi;
-  
-    UPDATE player p SET dinheiro = p.dinheiro + get_dinheiro_instancia_zumbi(_id_instancia_zumbi) WHERE id = _id_player;
-  
-    
-    INSERT INTO morte(player, zumbi, vitorioso) VALUES (_id_player, _id_instancia_zumbi, 'player');
-  
+
+  UPDATE instancia_zumbi
+  SET vida_atual = get_vida_maxima_zumbi(get_tipo_zumbi_from_instancia(_id_instancia_zumbi)),
+    quadrado = _id_novo_quadrado
+  WHERE id = _id_instancia_zumbi;
+
+  UPDATE player p SET dinheiro = p.dinheiro + get_dinheiro_instancia_zumbi(_id_instancia_zumbi) WHERE id = _id_player;
+
+  INSERT INTO morte(player, zumbi, vitorioso) VALUES (_id_player, _id_instancia_zumbi, 'player');
+
   END;
   $$ LANGUAGE plpgsql;
   `

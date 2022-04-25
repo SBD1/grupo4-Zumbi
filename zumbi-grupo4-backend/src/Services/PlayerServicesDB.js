@@ -5,8 +5,8 @@ export const getPlayerInfo = async (idPlayer) => {
   // client.connect();
   
   const query = 
-  `SELECT * FROM PLAYER
-   WHERE id = ${Number(idPlayer)};
+  `SELECT p.*, b.id as bolsa FROM player p LEFT JOIN bolsa b ON b.player = p.id 
+   WHERE p.id = ${Number(idPlayer)};
   `; // Select query
   const result = await getDBConnection(query);
   return result;
