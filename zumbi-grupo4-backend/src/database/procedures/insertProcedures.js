@@ -8,6 +8,6 @@ const insertData = async () => {
 
 (async () => {
   await insertData();
-  console.log('As tabelas foram populadas com sucesso!');
+  console.log('Procedures criados com sucesso!');
   process.exit(0);
 })();

@@ -76,10 +76,10 @@ export const postDinheiroQuadrado = async (idQuadrado, idPlayer) => {
   }
 }
 
-export const postPegaTodosItens = async (idInstanciaItem, idPlayer, idBolsa) => {
+export const postPegaTodosItens = async (idQuadrado, idBolsa) => {
   const query = 
   `
-    UPDATE instancia_item SET bolsa = ${idBolsa}, quadrado = NULL, player = ${idPlayer} WHERE id = ${idInstanciaItem};
+    CALL pegar_todos_items_do_quadrado(${idQuadrado}, ${idBolsa});
   `
 
   try {
