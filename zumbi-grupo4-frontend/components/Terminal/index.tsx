@@ -21,6 +21,14 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         atualizarQuadrado()
     }
 
+    const pegarItem = async (id: Number) => {
+        await api.post('/quadrado/pega-item', {
+            id_bolsa: informacoesPlayer.bolsa,
+            id_instancia_item: id
+        })
+        atualizarQuadrado()
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -83,10 +91,15 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                                     </SmallButton>
                                 </div>
                                 <ul>
-                                {quadradoInfo.itens.map((value, index) => (
-                                    <li key={`${value.id}-${index}`}>
-                                        {value.nome}
-                                    </li>
+                                    {quadradoInfo.itens.map((value, index) => (
+                                    <div className={styles.textBodyItemSolo}>
+                                        <li key={`${value.id}-${index}`}>
+                                            {value.nome}
+                                        </li>
+                                        <SmallButton onClick={()=>pegarItem(value.id_item)}>
+                                            Pegar item
+                                        </SmallButton>
+                                    </div>
                                 ))}
                                 </ul>
                             </div>
