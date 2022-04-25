@@ -1,23 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
 import { player, quadradoInfo as quadradoInfoInterface } from '../../interfaces'
 import api from '../../pages/api/api'
 import SmallButton from '../SmallButton'
+import toast, { Toaster } from 'react-hot-toast'
 
 interface props {
     quadradoInfo: quadradoInfoInterface,
     atualizarQuadrado: () => void,
     informacoesPlayer: player,
-    quadradoId: Number
+    quadradoId: Number,
+    atacarZumbi: boolean,
+    setAtacarZumbi: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId }: props) {
+export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi }: props) {
+
+    const [resumoLuta, setResumoLuta] = useState<string>('')
 
     const pegarItens = async () => {
         await api.post('/quadrado/pega-todos-itens', {
             id_quadrado: quadradoId,
             id_bolsa: informacoesPlayer.bolsa
-        })
+        }).then(() => toast.success('Itens adicionados a bolsa!'))
+            .catch(() => toast.error("Erro ao adicionar os itens, tente novamente :("))
         atualizarQuadrado()
     }
 
@@ -25,7 +31,8 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         await api.post('/quadrado/pega-item', {
             id_bolsa: informacoesPlayer.bolsa,
             id_instancia_item: id
-        })
+        }).then(() => toast.success('Item adicionado a bolsa!'))
+            .catch(() => toast.error("Erro ao adicionar o item, tente novamente :("))
         atualizarQuadrado()
     }
 
@@ -33,9 +40,20 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         await api.post('/quadrado/dinheiro-quadrado', {
             id_player: informacoesPlayer.id,
             id_quadrado: quadradoId
-        })
+        }).then(() => toast.success('Moedas adicionadas a bolsa!'))
+            .catch(() => toast.error("Erro ao adicionar as moedas, tente novamente :("))
         atualizarQuadrado()
     }
+
+    const atacarZumbiFunc = async () => {
+        
+    }
+
+    useEffect(() => {
+        if (atacarZumbi === true) {
+           atacarZumbiFunc
+        }
+    }, [atacarZumbiFunc])
 
     return (
         <div className={styles.container}>
@@ -115,9 +133,15 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                                 </ul>
                             </div>
                         ) : null}
+                        {atacarZumbi &&
+                            <div>
+                                {resumoLuta}
+                            </div>
+                        }
                     </div>
                 ) : null}
             </div>
+            <Toaster/>
         </div>
     )
 }

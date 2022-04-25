@@ -18,3 +18,9 @@
 .container:hover{
     opacity: 0.8;
 }
+
+.container:disabled{
+    cursor: not-allowed;
+    background-color: grey !important;
+    opacity: 1 !important;
+}
