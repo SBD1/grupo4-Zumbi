@@ -7,6 +7,7 @@ import Terminal from '../components/Terminal'
 import styles from '../styles/home.module.css'
 import api from './api/api'
 import { player, quadrado, quadradoInfo } from '../interfaces'
+import ModalBolsa from '../components/ModalBolsa'
 
 const Home: NextPage = () => {
   
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
   const [quadradoInfo, setQuadradoInfo] = useState<quadradoInfo>({} as quadradoInfo)
   const [playerInfo, setPlayerInfo] = useState<player>({} as player)
   const [disabledMove, setDesabledMove] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const [currentPosition, setCurrentPosition] = useState<quadrado>({
     lado_leste: 0,
@@ -47,6 +49,10 @@ const Home: NextPage = () => {
   const getPlayer = async () => {
     const response = await api.get('/player/1')
     setPlayerInfo(response.data?.[0] || [])
+  }
+
+  const closeModal = () => {
+    setModalOpen(false)
   }
 
   useEffect(() => {
@@ -115,6 +121,9 @@ const Home: NextPage = () => {
         <Button color="primary">
           Atacar
         </Button>
+        <Button onclick={()=>setModalOpen(true)} color="primary">
+          Bolsa
+        </Button>
         <Button color="secondary">
           Recarregar
         </Button>
@@ -123,6 +132,7 @@ const Home: NextPage = () => {
         </Button>
       </div>
       
+      <ModalBolsa openModal={modalOpen} closeModal={closeModal}/>
     </div>
   )
 }

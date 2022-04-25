@@ -33,8 +33,6 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         await api.post('/quadrado/dinheiro-quadrado', {
             id_player: informacoesPlayer.id,
             id_quadrado: quadradoId
-        }).then((res) => {
-            console.log(res)
         })
         atualizarQuadrado()
     }
