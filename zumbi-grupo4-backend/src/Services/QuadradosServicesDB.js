@@ -42,8 +42,27 @@ export const getQuadradoInfo = async (idQuadrado) => {
     resp[i] = await getDBConnection(queries[i]);
   }
 
-  return resp;
+  if(resp.zumbi[0].tipoespecializacao != undefined) {
+    const queryDanoZumbi = `
+    SELECT 
+    case
+        when  zumbi.tipoespecializacao  = 'corredores' then corredores.dano
+        when  zumbi.tipoespecializacao = 'estaladores' then estaladores.dano
+        when  zumbi.tipoespecializacao = 'baiacu' then baiacu.dano
+        when  zumbi.tipoespecializacao = 'gosmento' then gosmento.dano
+    end as dano
+    FROM
+    	zumbi,
+        corredores,
+        estaladores,
+        baiacu,
+        gosmento
+  	WHERE zumbi.id = ${resp.zumbi[0].instancia_zumbi_id}`
+    let dano = await getDBConnection(queryDanoZumbi);
+    resp.zumbi[0].dano = dano[0].dano;
+  }
 
+  return resp;
 }
 
 export const postPegaItem = async (idBolsa, idInstanciaItem) => {
