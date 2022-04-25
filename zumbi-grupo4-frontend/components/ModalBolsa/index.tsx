@@ -15,6 +15,7 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
     
     const [playerInfo, setPlayerInfo] = useState<player>({} as player)
     const [bolsaInfo, setBolsaInfo] = useState<Array<itens>>([])
+    const [itemInfo, setItemInfo] = useState<boolean>(false)
 
     const getPlayer = async () => {
         const response = await api.get('/player/1')
@@ -39,9 +40,15 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
 
             <div className={styles.bolsaItens}>
                 {bolsaInfo.map((item, index) =>
-                    <button key={index} className={styles.bolsaItem}>
-                        {index + 1}. {item.nome}
-                    </button>
+                    <div className={styles.divButton}>
+                        <button onClick={() => setItemInfo(!itemInfo)} key={index} className={styles.bolsaItem}>
+                            {index + 1}. {item.nome}
+                        </button>
+                        {itemInfo && <div className={styles.divDescription}>
+                            <p><b>Preço:</b> {item.preco} moedas</p>
+                            <p><b>Tipo de arma:</b> {item.tipo_especializacao}</p>
+                        </div>}
+                    </div>
                 )}
             </div>
 

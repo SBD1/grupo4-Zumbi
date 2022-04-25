@@ -28,3 +28,13 @@
     font-size: 2rem;
     cursor: pointer;
 }
+
+.divDescription{
+    margin-bottom: 1rem;
+}
+
+.divButton{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
