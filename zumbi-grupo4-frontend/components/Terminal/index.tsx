@@ -29,6 +29,16 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         atualizarQuadrado()
     }
 
+    const pegarMoedas = async () => {
+        await api.post('/quadrado/dinheiro-quadrado', {
+            id_player: informacoesPlayer.id,
+            id_quadrado: quadradoId
+        }).then((res) => {
+            console.log(res)
+        })
+        atualizarQuadrado()
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -58,6 +68,9 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                             <div>
                                 <div className={styles.textBody}>
                                     Moedas
+                                    <SmallButton onClick={pegarMoedas}>
+                                        Pegar moedas
+                                    </SmallButton>
                                 </div>
                                 <ul>
                                     {quadradoInfo.moedas.map((value, index) => (
