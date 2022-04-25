@@ -1,12 +1,26 @@
 import React from 'react'
 import styles from './styles.module.css'
-import { quadradoInfo as quadradoInfoInterface } from '../../interfaces'
+import { player, quadradoInfo as quadradoInfoInterface } from '../../interfaces'
+import api from '../../pages/api/api'
+import SmallButton from '../SmallButton'
 
 interface props {
-    quadradoInfo: quadradoInfoInterface
+    quadradoInfo: quadradoInfoInterface,
+    atualizarQuadrado: () => void,
+    informacoesPlayer: player,
+    quadradoId: Number
 }
 
-export default function Terminal({ quadradoInfo }: props) {
+export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId }: props) {
+
+    const pegarItens = async () => {
+        await api.post('/quadrado/pega-todos-itens', {
+            id_quadrado: quadradoId,
+            id_bolsa: informacoesPlayer.bolsa
+        })
+        atualizarQuadrado()
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -64,6 +78,9 @@ export default function Terminal({ quadradoInfo }: props) {
                             <div>
                                 <div className={styles.textBody}>
                                     Itens
+                                    <SmallButton onClick={pegarItens}>
+                                        Pegar todos
+                                    </SmallButton>
                                 </div>
                                 <ul>
                                 {quadradoInfo.itens.map((value, index) => (

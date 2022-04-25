@@ -6,13 +6,14 @@ import MoveButton from '../components/MoveButton'
 import Terminal from '../components/Terminal'
 import styles from '../styles/home.module.css'
 import api from './api/api'
-import { quadrado, quadradoInfo } from '../interfaces'
+import { player, quadrado, quadradoInfo } from '../interfaces'
 
 const Home: NextPage = () => {
   
   const [heroPosition, setHeroPosition] = useState<Number>(0)
   const [zone, setZone] = useState<Array<quadrado>>([])
   const [quadradoInfo, setQuadradoInfo] = useState<quadradoInfo>({} as quadradoInfo)
+  const [playerInfo, setPlayerInfo] = useState<player>({} as player)
 
   const [currentPosition, setCurrentPosition] = useState<quadrado>({
     lado_leste: 0,
@@ -41,12 +42,21 @@ const Home: NextPage = () => {
     setQuadradoInfo(response.data)
   }
 
+  const getPlayer = async () => {
+    const response = await api.get('/player/1')
+    setPlayerInfo(response.data?.[0] || [])
+  }
+
   useEffect(() => {
     console.log(quadradoInfo)
   }, [quadradoInfo])
 
   useEffect(() => {
     getZona()
+  }, [])
+
+  useEffect(() => {
+    getPlayer()
   }, [])
 
   useEffect(() => {
@@ -80,7 +90,12 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Terminal quadradoInfo={quadradoInfo} />
+      <Terminal
+        quadradoInfo={quadradoInfo}
+        quadradoId={heroPosition}
+        atualizarQuadrado={getCurrentPosition}
+        informacoesPlayer={playerInfo}
+      />
         <div  className={styles.containerMap} style={{gridTemplateColumns: `repeat(${Math.sqrt(zone.length)}, 1fr)`}}>
           {zone.map((res: any, index1: number) =>
             <div key={`${index1}${res}`} className={styles.divPositionMap}>
@@ -88,7 +103,7 @@ const Home: NextPage = () => {
             </div>
           )}
         </div>
-      
+
       <div className={styles.buttons}>
         <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp}/>
         <Button color="primary">

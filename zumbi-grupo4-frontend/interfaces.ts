@@ -39,3 +39,15 @@ export interface quadradoInfo {
   itens: Array<itens>,
   npcs: Array<npcs>
 }
+
+export interface player {
+  id: Number,
+  vida: Number,
+  dano: Number,
+  velocidade: Number,
+  nome: string,
+  exp_acumulado: Number,
+  dinheiro: Number | null,
+  quadrado: Number | null,
+  bolsa: Number | null
+}
