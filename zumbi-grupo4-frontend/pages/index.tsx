@@ -77,28 +77,28 @@ const Home: NextPage = () => {
   function moveRight() {
     if (currentPosition.lado_leste) {
       setHeroPosition(currentPosition.lado_leste)
+      setDesabledMove(true)
     }
-    setDesabledMove(true)
   }
   function moveLeft() {
     if (currentPosition.lado_oeste) {
       setHeroPosition(currentPosition.lado_oeste)
+      setDesabledMove(true)
     }
-    setDesabledMove(true)
   }
 
   function moveUp() {
     if (currentPosition.lado_norte) {
       setHeroPosition(currentPosition.lado_norte)
+      setDesabledMove(true)
     }
-    setDesabledMove(true)
   }
 
   function moveDown() {
     if (currentPosition.lado_sul) {
       setHeroPosition(currentPosition.lado_sul)
+      setDesabledMove(true)
     }
-    setDesabledMove(true)
   }
 
   return (
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
 
       <div className={styles.buttons}>
         <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp} disabledWait={disabledMove}/>
-        <Button disabled={quadradoInfo.zumbi.length === 0} onclick={()=>setAtacarZumbi(true)} color="primary" >
+        <Button disabled={quadradoInfo?.zumbi?.length === 0} onclick={()=> setAtacarZumbi(true)} color="primary" >
           Atacar
         </Button>
         <Button onclick={()=>setModalOpen(true)} color="primary">

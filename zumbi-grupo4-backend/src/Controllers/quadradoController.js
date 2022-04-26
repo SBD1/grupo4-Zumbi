@@ -49,7 +49,7 @@ class QuadradoController {
     const { id_player, id_quadrado } = req.body;
 
     try {
-      await postDinheiroQuadrado(id_player, id_quadrado);
+      await postDinheiroQuadrado(id_quadrado, id_player);
     }catch(error) {
       console.log(error.message);
     }

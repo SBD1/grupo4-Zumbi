@@ -16,12 +16,22 @@ export const getQuadradoInfo = async (idQuadrado) => {
   const queries = {
     zumbi:  `
       SELECT 
-        iz.id AS instancia_zumbi_id,
-        iz.vida_atual,
-        iz.dinheiro,
-        z.tipoespecializacao
+      iz.id AS instancia_zumbi_id,
+      iz.vida_atual,
+      iz.dinheiro,
+      z.tipoespecializacao,
+      case
+          when  z.tipoespecializacao  = 'corredores' then c.dano
+          when  z.tipoespecializacao = 'estaladores' then e.dano
+          when  z.tipoespecializacao = 'baiacu' then b.dano
+          when  z.tipoespecializacao = 'gosmento' then g.dano
+      end as dano
       FROM instancia_zumbi iz
       LEFT JOIN zumbi z ON z.id = iz.id_zumbi
+      LEFT JOIN corredores c on c.id = z.id
+      LEFT JOIN estaladores e on e.id = z.id
+      LEFT JOIN baiacu b on b.id = z.id
+      LEFT JOIN gosmento g on g.id = z.id
       WHERE iz.quadrado = ${Number(idQuadrado)};
     `,
 
@@ -42,31 +52,11 @@ export const getQuadradoInfo = async (idQuadrado) => {
     resp[i] = await getDBConnection(queries[i]);
   }
 
-  if(resp.zumbi[0].tipoespecializacao != undefined) {
-    const queryDanoZumbi = `
-    SELECT 
-    case
-        when  zumbi.tipoespecializacao  = 'corredores' then corredores.dano
-        when  zumbi.tipoespecializacao = 'estaladores' then estaladores.dano
-        when  zumbi.tipoespecializacao = 'baiacu' then baiacu.dano
-        when  zumbi.tipoespecializacao = 'gosmento' then gosmento.dano
-    end as dano
-    FROM
-    	zumbi,
-        corredores,
-        estaladores,
-        baiacu,
-        gosmento
-  	WHERE zumbi.id = ${resp.zumbi[0].instancia_zumbi_id}`
-    let dano = await getDBConnection(queryDanoZumbi);
-    resp.zumbi[0].dano = dano[0].dano;
-  }
-
   return resp;
 }
 
 export const postPegaItem = async (idBolsa, idInstanciaItem) => {
-  const query = `CALL pegar_item_do_quadrado(${idBolsa}, ${idInstanciaItem})`
+  const query = `CALL pegar_item_do_quadrado(${idInstanciaItem}, ${idBolsa})`
   try{
     await getDBConnection(query, false);
     return true;

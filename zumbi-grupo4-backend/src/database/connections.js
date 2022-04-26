@@ -11,10 +11,9 @@ async function getDBConnection(query, returToCaller=true) {
   const connectionString = `postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
   const connection = new Pool({ connectionString: connectionString, });
 
-
-  connection.connect();
-  const resp = await connection.query(query);
-  connection.end();
+  const client = await connection.connect();
+  const resp = await client.query(query);
+  client.release();
   if(returToCaller) {
     return resp.rows;
   }
