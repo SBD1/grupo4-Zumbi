@@ -63,6 +63,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
             .catch(() => toast.error("Erro ao matar zumbi, tente novamente :("))
             
         } else {
+            setMorte(true)
             setResumoLuta('Você morreu')
             setTimeout(function () {
                 setAtacarZumbi(false)

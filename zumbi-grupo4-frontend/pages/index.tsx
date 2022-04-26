@@ -57,10 +57,6 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    console.log( quadradoInfo, '-', playerInfo)
-  }, [quadradoInfo])
-
-  useEffect(() => {
     getZona()
   }, [])
 
