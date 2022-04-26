@@ -7,6 +7,7 @@ export interface quadrado {
 }
 
 export interface zumbi {
+  dano: Number;
   instancia_zumbi_id: Number,
   vida_atual: Number,
   dinheiro: Number,
