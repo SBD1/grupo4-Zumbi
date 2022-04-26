@@ -17,6 +17,7 @@ interface props {
 export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi }: props) {
 
     const [resumoLuta, setResumoLuta] = useState<string>('')
+    const [danoRecebido, setDanoRecebido] = useState<Number>(0)
 
     const pegarItens = async () => {
         await api.post('/quadrado/pega-todos-itens', {
@@ -46,14 +47,21 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     }
 
     const atacarZumbiFunc = async () => {
-        
+        if (Number(informacoesPlayer.dano) >= 5) {   
+            await api.post('/quadrado/dinheiro-quadrado', {
+                id_player: informacoesPlayer.id,
+                id_quadrado: quadradoId
+            })
+        }
+        setDanoRecebido((Number(quadradoInfo?.zumbi[0].vida_atual)/Number(informacoesPlayer.dano))*5)
+        setAtacarZumbi(false)
     }
 
     useEffect(() => {
         if (atacarZumbi === true) {
-           atacarZumbiFunc
+            atacarZumbiFunc()
         }
-    }, [atacarZumbiFunc])
+    }, [atacarZumbi])
 
     return (
         <div className={styles.container}>

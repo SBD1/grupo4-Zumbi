@@ -57,7 +57,7 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    console.log( quadradoInfo)
+    console.log( quadradoInfo, '-', playerInfo)
   }, [quadradoInfo])
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
 
       <div className={styles.buttons}>
         <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp} disabledWait={disabledMove}/>
-        <Button disabled={quadradoInfo.zumbi.length === 0} onclick={()=>setAtacarZumbi(true)} color="primary" >
+        <Button disabled={quadradoInfo.zumbi?.length === 0} onclick={()=>setAtacarZumbi(true)} color="primary" >
           Atacar
         </Button>
         <Button onclick={()=>setModalOpen(true)} color="primary">
