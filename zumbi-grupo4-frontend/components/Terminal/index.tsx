@@ -88,7 +88,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                                 </ul>
                             </div>
                         ) : null}
-                        {quadradoInfo.moedas && quadradoInfo.moedas.length ? (
+                        {quadradoInfo.moedas && quadradoInfo.moedas.length && quadradoInfo.moedas[0].qtd ? (
                             <div>
                                 <div className={styles.textBody}>
                                     Moedas
@@ -129,11 +129,11 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                                 </div>
                                 <ul>
                                     {quadradoInfo.itens.map((value, index) => (
-                                    <div className={styles.textBodyItemSolo}>
+                                    <div key={`${value.id}-${index}`} className={styles.textBodyItemSolo}>
                                         <li key={`${value.id}-${index}`}>
                                             {value.nome}
                                         </li>
-                                        <SmallButton onClick={()=>pegarItem(value.id_item)}>
+                                        <SmallButton onClick={()=>pegarItem(value.id)}>
                                             Pegar item
                                         </SmallButton>
                                     </div>

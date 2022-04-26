@@ -381,6 +381,7 @@ BEGIN
 		);
 END
 $$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE PROCEDURE dropar_item_no_quadrado(_id_instancia_item INTEGER, _id_quadrado INTEGER)
 AS $$
 BEGIN
@@ -485,3 +486,21 @@ BEGIN
 
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_tamanho_bolsa (_id_bolsa INTEGER)
+    RETURNS VARCHAR AS $$
+BEGIN
+  RETURN 
+  (SELECT tamanho FROM bolsa WHERE id=_id_bolsa);
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_qtd_items_bolsa (_id_bolsa INTEGER)
+    RETURNS VARCHAR AS $$
+BEGIN
+  RETURN 
+  (SELECT count(id) FROM instancia_item WHERE  bolsa=_id_bolsa);
+END
+$$ LANGUAGE plpgsql;
+
+
