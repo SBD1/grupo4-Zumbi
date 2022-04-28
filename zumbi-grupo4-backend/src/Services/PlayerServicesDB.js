@@ -23,3 +23,16 @@ export const postMortePlayer = async (idPlayer, idZumbi) => {
   return result;
   // client.end();
 }
+
+export const getItemsPlayer = async (idPlayer) => {
+  // client.connect();
+  
+  const query = 
+  `SELECT * FROM get_instancia_items_nomes_and_precos()
+   WHERE player = ${Number(idPlayer)};
+  `; // Select query
+  const result = await getDBConnection(query);
+  console.log(result);
+  return result;
+  // client.end();
+}

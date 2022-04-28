@@ -13,6 +13,8 @@ routes.get('/player/:player_id', PlayerController.getPlayerInfo);
 
 routes.post('/player', PlayerController.postMortePlayer);
 
+routes.get('/playerItems/:player_id', PlayerController.getItemsPlayer);
+
 //rotas quadrado
 //busca as informações de itens, zumbi, npc e as moedas de um quadrado
 routes.get('/quadrado/:quadrado_id', QuadradoController.getQuadradoInfo);
