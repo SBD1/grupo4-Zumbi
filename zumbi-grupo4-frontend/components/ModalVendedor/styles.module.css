@@ -1,0 +1,41 @@
+.container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 2rem;
+    margin: 5rem;
+    max-height: 40rem;
+}
+
+.bolsaTitle{
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+
+    margin-bottom: 2rem;
+}
+
+.bolsaItens{
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 1rem
+}
+
+.bolsaItem{
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.divDescription{
+    margin-bottom: 1rem;
+}
+
+.divButton{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}

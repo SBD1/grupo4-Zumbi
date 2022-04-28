@@ -18,6 +18,7 @@ const Home: NextPage = () => {
   const [disabledMove, setDesabledMove] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [atacarZumbi, setAtacarZumbi] = useState<boolean>(false)
+  const [modalOpenVendedor, setModalOpenVendedor] = useState<boolean>(false)
 
   const [currentPosition, setCurrentPosition] = useState<quadrado>({
     lado_leste: 0,
@@ -58,9 +59,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     getZona()
-  }, [])
-
-  useEffect(() => {
     getPlayer()
   }, [])
 
@@ -106,6 +104,8 @@ const Home: NextPage = () => {
         informacoesPlayer={playerInfo}
         atacarZumbi={atacarZumbi}
         setAtacarZumbi={setAtacarZumbi}
+        openModalVendedor={modalOpenVendedor}
+        setModalOpenVendedor={setModalOpenVendedor}
       />
         <div  className={styles.containerMap} style={{gridTemplateColumns: `repeat(${Math.sqrt(zone.length)}, 1fr)`}}>
           {zone.map((res: any, index1: number) =>

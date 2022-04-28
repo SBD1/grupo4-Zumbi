@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
-import { player, quadradoInfo as quadradoInfoInterface } from '../../interfaces'
+import { player, produto, quadradoInfo as quadradoInfoInterface } from '../../interfaces'
 import api from '../../pages/api/api'
 import SmallButton from '../SmallButton'
 import toast, { Toaster } from 'react-hot-toast'
+import ModalVendedor from '../ModalVendedor'
 
 interface props {
     quadradoInfo: quadradoInfoInterface,
@@ -11,14 +12,17 @@ interface props {
     informacoesPlayer: player,
     quadradoId: Number,
     atacarZumbi: boolean,
-    setAtacarZumbi: React.Dispatch<React.SetStateAction<boolean>>
+    setAtacarZumbi: React.Dispatch<React.SetStateAction<boolean>>,
+    openModalVendedor: boolean,
+    setModalOpenVendedor: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi }: props) {
+export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi, openModalVendedor, setModalOpenVendedor }: props) {
 
     const [resumoLuta, setResumoLuta] = useState<string>('')
     const [danoRecebido, setDanoRecebido] = useState<Number>(0)
     const [morte, setMorte] = useState<boolean>(false)
+    const [listaVendedor, setListaVendedor] = useState<Array<produto>>([])
 
     const pegarItens = async () => {
         await api.post('/quadrado/pega-todos-itens', {
@@ -30,7 +34,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     }
 
     const pegarItem = async (id: Number) => {
-        await api.post('/quadrado/pega-item', {
+        await api.post('/bolsa/pega-item', {
             id_bolsa: informacoesPlayer.bolsa,
             id_instancia_item: id
         }).then(() => toast.success('Item adicionado a bolsa!'))
@@ -48,7 +52,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     }
 
     const atacarZumbiFunc = async () => {
-        if (Number(informacoesPlayer.dano) >= ((2.5 / Number(informacoesPlayer.velocidade)) * Number(quadradoInfo?.zumbi[0].dano))) {
+        if (Number(informacoesPlayer.dano) >= (Number(quadradoInfo?.zumbi[0].dano))) {
             await api.post('/zumbi/matar', {
                 id_player: informacoesPlayer.id,
                 zumbi_id: quadradoInfo?.zumbi[0].instancia_zumbi_id,
@@ -72,6 +76,13 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         setDanoRecebido((Number(quadradoInfo?.zumbi[0].vida_atual)/Number(informacoesPlayer.dano))*0.4 * Number(quadradoInfo?.zumbi[0].dano))
     }
 
+    const getNPC = async (id: Number) => {
+        const response = await api.get('/npc/' + id)
+        setListaVendedor(response.data.estoque)
+        setModalOpenVendedor(true)
+        atualizarQuadrado()
+    }
+
     useEffect(() => {
         if (atacarZumbi === true) {
             atacarZumbiFunc()
@@ -86,6 +97,12 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
             <div className={styles.body}>
                 <div className={styles.textBody}>
                     - Você iniciou sua jornada contra os zumbis!
+                </div>
+                <div className={styles.textBodyInfo}>
+                    <p><b>Nome: </b>{informacoesPlayer.nome}</p>
+                    <p><b>Dinheiro: </b>{informacoesPlayer.dinheiro}</p>
+                    <p><b>Vida: </b>{informacoesPlayer.vida}</p>
+                    <p><b>Dano: </b>{informacoesPlayer.dano}</p>
                 </div>
                 {quadradoInfo ? (
                     <div>
@@ -131,6 +148,12 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                                     {quadradoInfo.npcs.map((value, index) => (
                                         <li key={`${value.instancia_npc_id}-${index}`}>
                                             {value.tipo_especializacao}
+                                            <SmallButton onClick={()=>{getNPC(value.instancia_npc_id)}}>
+                                                {(value.tipo_especializacao === 'vendedor')?
+                                                    'comprar':
+                                                    'Pegar missão'
+                                                }
+                                            </SmallButton>
                                         </li>
                                     ))}
                                 </ul>
@@ -167,7 +190,8 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                     </div>
                 ) : null}
             </div>
-            <Toaster/>
+            <Toaster />
+            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} listaVendedor={listaVendedor}/>
         </div>
     )
 }

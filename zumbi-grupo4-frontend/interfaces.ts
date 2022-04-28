@@ -52,3 +52,10 @@ export interface player {
   quadrado: Number | null,
   bolsa: Number | null
 }
+
+export interface produto {
+  id_item: Number,
+  tipo_especializacao: string,
+  nome: string,
+  preco: Number
+}
