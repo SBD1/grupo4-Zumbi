@@ -3,16 +3,36 @@ import styles from './styles.module.css'
 import Modal from 'react-modal';
 import Button from '../Button';
 import toast, { Toaster } from 'react-hot-toast';
-import { produto } from '../../interfaces';
+import { player, produto, quadradoInfo as quadradoInfoInterface } from '../../interfaces';
 import SmallButton from '../SmallButton';
+import api from '../../pages/api/api';
 
 interface boolProps {
     openModal: boolean,
     closeModal: () => void,
-    listaVendedor: Array<produto>
+    listaVendedor: Array<produto>,
+    informacoesPlayer: player,
+    quadradoInfo: quadradoInfoInterface
 }
 
-export default function ModalVendedor({ openModal, closeModal, listaVendedor}: boolProps) {
+export default function ModalVendedor({ openModal, closeModal, listaVendedor, informacoesPlayer, quadradoInfo}: boolProps) {
+    
+    const comprarItem = async (id_item: Number) => {
+        await api.post('/npc/comprar', {
+            item_id: id_item,
+            id_player: informacoesPlayer.id,
+            id_vendedor: quadradoInfo?.npcs[0]?.instancia_npc_id
+        }).then((res) => {
+            if (res.data.message === "Ocorreu um erro ao tentar comprar item") {
+                toast.error("Erro ao comprar o item, tente novamente :(")
+            } else {
+                toast.success('Compra realizada com sucesso!')
+            }
+            console.log(res)
+        })
+        .catch(() => toast.error("Erro ao comprar o item, tente novamente :("))
+        
+    }
   
     return (
         <Modal isOpen={openModal} className={styles.container}>
@@ -31,7 +51,7 @@ export default function ModalVendedor({ openModal, closeModal, listaVendedor}: b
                             <p><b>Preço:</b> {item.preco} moedas</p>
                             <p><b>Nome:</b> {item.nome}</p>
                             <p><b>Tipo de arma:</b> {item.tipo_especializacao}</p>
-                            <SmallButton onClick={()=>console.log('comprar')}>
+                            <SmallButton onClick={()=>comprarItem(item.id_item)}>
                                 Comprar
                             </SmallButton>
                         </div>

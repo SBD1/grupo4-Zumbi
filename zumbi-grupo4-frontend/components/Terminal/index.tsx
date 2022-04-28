@@ -191,7 +191,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                 ) : null}
             </div>
             <Toaster />
-            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} listaVendedor={listaVendedor}/>
+            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} listaVendedor={listaVendedor} informacoesPlayer={informacoesPlayer} quadradoInfo={quadradoInfo}/>
         </div>
     )
 }
