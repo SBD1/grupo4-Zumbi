@@ -9,40 +9,37 @@ import toast, { Toaster } from 'react-hot-toast';
 
 interface boolProps {
     openModal: boolean,
-    closeModal: () => void
+    closeModal: () => void,
+    heroPosition: Number,
+    informacoesPlayer: player,
+    atualizarQuadrado: () => void
 }
 
 
-export default function ModalBolsa({ openModal, closeModal }: boolProps) {
+export default function ModalBolsa({ openModal, closeModal, heroPosition, informacoesPlayer, atualizarQuadrado}: boolProps) {
     
-    const [playerInfo, setPlayerInfo] = useState<player>({} as player)
     const [bolsaInfo, setBolsaInfo] = useState<Array<itens>>([])
     const [itemInfo, setItemInfo] = useState<boolean>(false)
 
-    const getPlayer = async () => {
-        const response = await api.get('/player/1')
-        setPlayerInfo(response.data?.[0] || [])
-    }
-
     const getBolsaItens = async () => {
-        const response = await api.get(`bolsa/${playerInfo.bolsa}`)
+        const response = await api.get(`bolsa/${informacoesPlayer.bolsa}`)
         setBolsaInfo(response.data)
     }
 
     const droparItem = async (id_item: Number) => {
         await api.post('/item/dropar', {
             item_id: id_item,
-            quadrado_id: playerInfo.quadrado
+            quadrado_id: heroPosition
         }).then(() => toast.success('Item dropado com sucesso!'))
         .catch(() => toast.error("Erro ao dropar o item, tente novamente :("))
         
         getBolsaItens()
+        atualizarQuadrado()
     }
 
     useEffect(() => {
-        getPlayer()
         getBolsaItens()
-    }, [])
+    }, [openModal])
     
     return (
         <Modal isOpen={openModal} className={styles.container}>
@@ -62,7 +59,7 @@ export default function ModalBolsa({ openModal, closeModal }: boolProps) {
                         {itemInfo && <div className={styles.divDescription}>
                             <p><b>Preço:</b> {item.preco} moedas</p>
                             <p><b>Tipo de arma:</b> {item.tipo_especializacao}</p>
-                            <SmallButton onClick={()=>droparItem(item.id_item)}>
+                            <SmallButton onClick={()=>droparItem(item.id)}>
                                 Dropar item
                             </SmallButton>
                         </div>}

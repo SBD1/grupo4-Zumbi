@@ -128,7 +128,7 @@ const Home: NextPage = () => {
         </Button>
       </div>
       
-      <ModalBolsa openModal={modalOpen} closeModal={closeModal}/>
+      <ModalBolsa openModal={modalOpen} closeModal={closeModal} heroPosition={heroPosition} informacoesPlayer={playerInfo} atualizarQuadrado={getCurrentPosition}/>
     </div>
   )
 }
