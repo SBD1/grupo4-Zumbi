@@ -13,3 +13,13 @@ export const getPlayerInfo = async (idPlayer) => {
   // client.end();
 }
 
+export const postMortePlayer = async (idPlayer, idZumbi) => {
+  // client.connect();
+  
+  const query = 
+  `INSERT INTO morte (player, zumbi, vitorioso) VALUES (${Number(idPlayer)}, ${Number(idZumbi)}, 'zumbi');
+  `; // Select query
+  const result = await getDBConnection(query);
+  return result;
+  // client.end();
+}

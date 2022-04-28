@@ -11,6 +11,8 @@ const routes = new Router();
 //rotas player
 routes.get('/player/:player_id', PlayerController.getPlayerInfo);
 
+routes.post('/player', PlayerController.postMortePlayer);
+
 //rotas quadrado
 //busca as informações de itens, zumbi, npc e as moedas de um quadrado
 routes.get('/quadrado/:quadrado_id', QuadradoController.getQuadradoInfo);
