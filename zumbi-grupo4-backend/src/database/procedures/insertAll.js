@@ -251,10 +251,10 @@ module.exports = {
   $$ LANGUAGE plpgsql;
 
 
-  CREATE OR REPLACE PROCEDURE pegar_item_do_quadrado(_id_instancia_item INTEGER, _id_bolsa INTEGER)
+  CREATE OR REPLACE PROCEDURE colocar_item_na_bolsa(_id_instancia_item INTEGER, _id_bolsa INTEGER)
   AS $$
   BEGIN
-  UPDATE instancia_item SET quadrado = null, bolsa = _id_bolsa
+  UPDATE instancia_item SET quadrado = null, player = null, bolsa = _id_bolsa
     WHERE id = _id_instancia_item;
   END;
   $$ LANGUAGE plpgsql;

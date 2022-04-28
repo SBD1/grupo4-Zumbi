@@ -33,7 +33,7 @@ class QuadradoController {
     return res.status(200).json(response);
   }
 
-  async postPegaItemQuadrado(req, res) {
+  async postPegaItem(req, res) {
     const { id_bolsa, id_instancia_item } = req.body;
 
     try {

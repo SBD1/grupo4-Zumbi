@@ -56,7 +56,7 @@ export const getQuadradoInfo = async (idQuadrado) => {
 }
 
 export const postPegaItem = async (idBolsa, idInstanciaItem) => {
-  const query = `CALL pegar_item_do_quadrado(${idInstanciaItem}, ${idBolsa})`
+  const query = `CALL colocar_item_na_bolsa(${idInstanciaItem}, ${idBolsa})`
   try{
     await getDBConnection(query, false);
     return true;

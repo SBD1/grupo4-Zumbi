@@ -1,5 +1,5 @@
 import {getItem} from "../Services/ItemServicesDB"
-import {postDroparItemNoQuadrado} from "../Services/ItemServicesDB"
+import {postDroparItemNoQuadrado, usarItem} from "../Services/ItemServicesDB"
 
 class ItemController {
   async getItem(req, res) {
@@ -16,11 +16,24 @@ class ItemController {
   }
 
   async postDroparItemNoQuadrado(req, res) {
-    const { item_id, quadrado_id} = req.body;
+    const { item_id, quadrado_id } = req.body;
     let response = null;
 
     try { 
       response = await postDroparItemNoQuadrado(item_id, quadrado_id);
+    }catch(error) {
+      console.log(error.message);
+    }
+
+    return res.status(200).json(response);
+  }
+
+  async usarItem(req, res) {
+    const { item_id, player_id } = req.body;
+    let response = null;
+
+    try { 
+      response = await usarItem(item_id, player_id);
     }catch(error) {
       console.log(error.message);
     }

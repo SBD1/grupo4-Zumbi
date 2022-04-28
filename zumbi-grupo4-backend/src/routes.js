@@ -20,9 +20,6 @@ routes.get('/quadrado/:quadrado_id', QuadradoController.getQuadradoInfo);
 //busca os quadrados de uma zona
 routes.get('/quadrado/zona/:zona_id', QuadradoController.getLados);
 
-//post de item do quadrado
-routes.post('/quadrado/pega-item', QuadradoController.postPegaItemQuadrado);
-
 //post de todos items do quadrado
 routes.post('/quadrado/pega-todos-itens', QuadradoController.postAllItens);
 
@@ -33,12 +30,18 @@ routes.post('/quadrado/dinheiro-quadrado', QuadradoController.postDinheiroQuadra
 //pega items de uma bolsa
 routes.get('/bolsa/:bolsa_id', BolsaController.getItemsBolsa);
 
+//post de item do quadrado
+routes.post('/bolsa/pega-item', QuadradoController.postPegaItem);
+
+
 //rotas Item
 //pega detalhes de uma instancia de item 
 routes.get('/item/:item_id', ItemController.getItem);
 
 //Dropa item no quadrado
 routes.post('/item/dropar', ItemController.postDroparItemNoQuadrado);
+
+routes.post('/item/usar', ItemController.usarItem);
 
 //rotas Zumbi
 //morte zumbi
