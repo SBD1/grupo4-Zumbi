@@ -100,12 +100,14 @@ const Home: NextPage = () => {
       <Terminal
         quadradoInfo={quadradoInfo}
         quadradoId={heroPosition}
+        getPlayer={getPlayer}
         atualizarQuadrado={getCurrentPosition}
         informacoesPlayer={playerInfo}
         atacarZumbi={atacarZumbi}
         setAtacarZumbi={setAtacarZumbi}
         openModalVendedor={modalOpenVendedor}
         setModalOpenVendedor={setModalOpenVendedor}
+        setHeroPosition={setHeroPosition}
       />
         <div  className={styles.containerMap} style={{gridTemplateColumns: `repeat(${Math.sqrt(zone.length)}, 1fr)`}}>
           {zone.map((res: any, index1: number) =>
@@ -117,7 +119,7 @@ const Home: NextPage = () => {
 
       <div className={styles.buttons}>
         <MoveButton moveLeft={moveLeft} moveRight={moveRight} moveDown={moveDown} moveUp={moveUp} disabledWait={disabledMove}/>
-        <Button disabled={quadradoInfo?.zumbi?.length === 0} onclick={()=> setAtacarZumbi(true)} color="primary" >
+        <Button disabled={quadradoInfo?.zumbi?.length === 0} onclick={()=> setAtacarZumbi(true)} color="primary">
           Atacar
         </Button>
         <Button onclick={()=>setModalOpen(true)} color="primary">

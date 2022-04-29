@@ -14,10 +14,12 @@ interface props {
     atacarZumbi: boolean,
     setAtacarZumbi: React.Dispatch<React.SetStateAction<boolean>>,
     openModalVendedor: boolean,
-    setModalOpenVendedor: React.Dispatch<React.SetStateAction<boolean>>
+    setModalOpenVendedor: React.Dispatch<React.SetStateAction<boolean>>,
+    getPlayer: () => void,
+    setHeroPosition: () => void
 }
 
-export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi, openModalVendedor, setModalOpenVendedor }: props) {
+export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi, openModalVendedor, setModalOpenVendedor, getPlayer, setHeroPosition }: props) {
 
     const [resumoLuta, setResumoLuta] = useState<string>('')
     const [danoRecebido, setDanoRecebido] = useState<Number>(0)
@@ -49,6 +51,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         }).then(() => toast.success('Moedas adicionadas a bolsa!'))
             .catch(() => toast.error("Erro ao adicionar as moedas, tente novamente :("))
         atualizarQuadrado()
+        getPlayer()
     }
 
     const atacarZumbiFunc = async () => {
@@ -69,6 +72,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         } else {
             setMorte(true)
             setResumoLuta('Você morreu')
+            setHeroPosition(1)
             setTimeout(function () {
                 setAtacarZumbi(false)
             }, 5000);
