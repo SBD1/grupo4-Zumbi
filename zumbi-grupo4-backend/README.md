@@ -15,7 +15,7 @@ git clone https://github.com/SBD1/grupo4-Zumbi.git
 
 2. Mude para a pasta zumbi backend:
 ```
-cd zumbi-grupo4-backend
+cd grupo4-Zumbi/zumbi-grupo4-backend
 ```
 
 3. Crie e inicie os containers para o serviço:
@@ -50,12 +50,7 @@ yarn dev
 
 6. Para testar as requisições, use um programa como [Insomnia](https://insomnia.rest/download) ou [Postman](https://www.postman.com/downloads/) e use as rotas que estão na pasta routes na raiz do projeto.
 
-7. Caso queira excluir o banco, rode o comando:
-```
-yarn dropDB
-```
-
-Depois que rodar este comando, exclua a pasta `data` que está na raiz do projeto.
+7. Caso queira excluir o banco, exclua a pasta `data` que está localizada em 'grupo4-Zumbi/zumbi-grupo4-backend'.
 
 8. Ao terminar de usar, não esqueça de desativar o ambiente docker utilizando:
 ```
