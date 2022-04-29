@@ -25,6 +25,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     const [danoRecebido, setDanoRecebido] = useState<Number>(0)
     const [morte, setMorte] = useState<boolean>(false)
     const [listaVendedor, setListaVendedor] = useState<Array<produto>>([])
+    const [vidaPlayer, setVidaPlayer] = useState<Number>(informacoesPlayer.vida)
 
     const pegarItens = async () => {
         await api.post('/quadrado/pega-todos-itens', {
@@ -55,23 +56,35 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     }
 
     const atacarZumbiFunc = async () => {
-        if (Number(informacoesPlayer.dano) >= (Number(quadradoInfo?.zumbi[0].dano))) {
-            await api.post('/zumbi/matar', {
-                id_player: informacoesPlayer.id,
-                zumbi_id: quadradoInfo?.zumbi[0].instancia_zumbi_id,
-                idNovoQuadrado: quadradoId
-            }).then((res) => {
-                console.log(res)
-                setResumoLuta(`${quadradoInfo?.zumbi[0].tipoespecializacao} morto`)
+        if (Number(informacoesPlayer.dano) >= 0.4 * (Number(quadradoInfo?.zumbi[0].dano))) {
+            if ((Number(vidaPlayer) - ((Number(quadradoInfo?.zumbi[0].vida_atual) / Number(informacoesPlayer.dano)) - 1) * 0.4 * Number(quadradoInfo?.zumbi[0].dano)) > 0) {
+                await api.post('/zumbi/matar', {
+                    id_player: informacoesPlayer.id,
+                    zumbi_id: quadradoInfo?.zumbi[0].instancia_zumbi_id,
+                    idNovoQuadrado: quadradoId
+                }).then((res) => {
+                    console.log(res)
+                    setVidaPlayer(Number(vidaPlayer) - ((Number(quadradoInfo?.zumbi[0].vida_atual) / Number(informacoesPlayer.dano)) - 1) * 0.4 * Number(quadradoInfo?.zumbi[0].dano))
+                    setResumoLuta(`${quadradoInfo?.zumbi[0].tipoespecializacao} morto`)
+                    setTimeout(function () {
+                        setAtacarZumbi(false)
+                    }, 5000);
+                })
+                    .catch(() => toast.error("Erro ao matar zumbi, tente novamente :("))
+            } else {
+                setMorte(true)
+                setResumoLuta('Você morreu')
+                setVidaPlayer(informacoesPlayer.vida)
+                setHeroPosition(1)
                 setTimeout(function () {
                     setAtacarZumbi(false)
                 }, 5000);
-            })
-            .catch(() => toast.error("Erro ao matar zumbi, tente novamente :("))
+            }
             
         } else {
             setMorte(true)
             setResumoLuta('Você morreu')
+            setVidaPlayer(informacoesPlayer.vida)
             setHeroPosition(1)
             setTimeout(function () {
                 setAtacarZumbi(false)
@@ -88,10 +101,14 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     }
 
     useEffect(() => {
+        if (vidaPlayer === undefined) {
+            setVidaPlayer(informacoesPlayer.vida)
+        }
+        console.log(informacoesPlayer.vida)
         if (atacarZumbi === true) {
             atacarZumbiFunc()
         }
-    }, [atacarZumbi])
+    }, [atacarZumbi, informacoesPlayer])
 
     return (
         <div className={styles.container}>
@@ -105,7 +122,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                 <div className={styles.textBodyInfo}>
                     <p><b>Nome: </b>{informacoesPlayer.nome}</p>
                     <p><b>Dinheiro: </b>{informacoesPlayer.dinheiro}</p>
-                    <p><b>Vida: </b>{informacoesPlayer.vida}</p>
+                    <p><b>Vida: </b>{vidaPlayer}</p>
                     <p><b>Dano: </b>{informacoesPlayer.dano}</p>
                 </div>
                 {quadradoInfo ? (
@@ -188,7 +205,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                         {atacarZumbi &&
                             <div style={{textAlign: 'center'}}>
                                 <p>{resumoLuta}</p>
-                                {!morte && <p>{`você recebeu ${((Number(quadradoInfo?.zumbi[0].vida_atual) / Number(informacoesPlayer.dano)) - 1) * 0.4 * Number(quadradoInfo?.zumbi[0].dano)} de dano`}</p>}
+                                {!morte && <p>{`você recebeu ${Number(informacoesPlayer.vida)-Number(vidaPlayer)} de dano`}</p>}
                             </div>
                         }
                     </div>
