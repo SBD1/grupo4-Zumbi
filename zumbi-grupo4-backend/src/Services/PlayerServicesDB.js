@@ -36,3 +36,17 @@ export const getItemsPlayer = async (idPlayer) => {
   return result;
   // client.end();
 }
+
+export const getMissoes = async (idPlayer) => {
+  // client.connect();
+  
+  const query = 
+  `SELECT m.* FROM missaoPlayer mp
+   WHERE player = ${Number(idPlayer)}
+   LEFT JOIN missao m where m.id = mp.missao;
+  `; // Select query
+  const result = await getDBConnection(query);
+  console.log(result);
+  return result;
+  // client.end();
+}

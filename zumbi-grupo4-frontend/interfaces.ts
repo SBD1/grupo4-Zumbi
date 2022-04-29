@@ -59,3 +59,16 @@ export interface produto {
   nome: string,
   preco: Number
 }
+
+export interface missao {
+  id: Number,
+  titulo: string,
+  descricao: string,
+  recompensa: Number
+}
+
+export interface missaoPlayer {
+  missao: Number,
+  player: Number,
+  completa: Number
+}
