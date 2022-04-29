@@ -718,7 +718,18 @@ module.exports = {
   
   
   INSERT INTO instancia_npc (id_npc, quadrado) VALUES
-  (1, 1);
+  (1, 7),
+  (1, 24),
+  (1, 49),
+  (1, 67),
+  (1, 88),
+  (1, 100),
+  (2, 19),
+  (2, 31),
+  (2, 55),
+  (2, 77),
+  (2, 91)
+  ;
   
   INSERT INTO falas (id_npc, texto) VALUES
   (1, 'deseja comprar um item?'),
@@ -743,7 +754,26 @@ module.exports = {
   (3, null, 2, null),
   (5, null, null, 1),
   (1, null, null, 2),
-  (4, 1, null, null);
+  (4, 1, null, null),
+  (2, null, null, 10),
+  (2, null, null, 99),
+  (2, null, null, 45),
+  (2, null, null, 37),
+  (3, null, null, 70),
+  (3, null, null, 8),
+  (3, null, null, 22),
+  (3, null, null, 83),
+  (4, null, null, 5),
+  (4, null, null, 31),
+  (4, null, null, 66),
+  (5, null, null, 42),
+  (5, null, null, 55),
+  (5, null, null, 61),
+  (5, null, null, 59),
+  (1, null, null, 38),
+  (6, null, null, 14),
+  (6, null, null, 87)
+  ;
   
   INSERT INTO missao (titulo, descricao, recompensa, npc) VALUES
   ('Bem vindo à Zumbizera', 'Sua primeira missão é ter uma missão', 1, 2);

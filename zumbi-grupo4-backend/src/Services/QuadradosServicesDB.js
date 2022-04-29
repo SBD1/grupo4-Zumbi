@@ -5,6 +5,7 @@ export const getLados = async (idZona) => {
   const query = `
     SELECT id, lado_norte, lado_sul, lado_leste, lado_oeste FROM quadrado
     WHERE zona = ${Number(idZona)}
+    ORDER BY id;
   `
 
   return await getDBConnection(query);

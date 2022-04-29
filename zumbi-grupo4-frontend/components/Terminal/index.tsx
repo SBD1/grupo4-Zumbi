@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
-import { player, produto, quadradoInfo as quadradoInfoInterface } from '../../interfaces'
+import { missao, player, produto, quadradoInfo as quadradoInfoInterface } from '../../interfaces'
 import api from '../../pages/api/api'
 import SmallButton from '../SmallButton'
 import toast, { Toaster } from 'react-hot-toast'
@@ -16,7 +17,7 @@ interface props {
     openModalVendedor: boolean,
     setModalOpenVendedor: React.Dispatch<React.SetStateAction<boolean>>,
     getPlayer: () => void,
-    setHeroPosition: () => void
+    setHeroPosition: (arg0 : Number) => void
 }
 
 export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesPlayer, quadradoId, atacarZumbi, setAtacarZumbi, openModalVendedor, setModalOpenVendedor, getPlayer, setHeroPosition }: props) {
@@ -24,6 +25,8 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     const [resumoLuta, setResumoLuta] = useState<string>('')
     const [danoRecebido, setDanoRecebido] = useState<Number>(0)
     const [morte, setMorte] = useState<boolean>(false)
+    const [missoes, setMissoes] = useState<Array<missao>>([] as Array<missao>)
+    const [missoesPlayer, setMissoesPlayer] = useState<Array<missao>>([] as Array<missao>)
     const [listaVendedor, setListaVendedor] = useState<Array<produto>>([])
     const [vidaPlayer, setVidaPlayer] = useState<Number>(informacoesPlayer.vida)
 
@@ -53,6 +56,11 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
             .catch(() => toast.error("Erro ao adicionar as moedas, tente novamente :("))
         atualizarQuadrado()
         getPlayer()
+    }
+
+    const getMissoes = async () => {
+        const response = await api.get('/missoes/1')
+        setMissoesPlayer(response.data)
     }
 
     const atacarZumbiFunc = async () => {
@@ -96,6 +104,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
     const getNPC = async (id: Number) => {
         const response = await api.get('/npc/' + id)
         setListaVendedor(response.data.estoque)
+        setMissoes(response.data.missoes)
         setModalOpenVendedor(true)
         atualizarQuadrado()
     }
@@ -125,6 +134,28 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                     <p><b>Vida: </b>{vidaPlayer}</p>
                     <p><b>Dano: </b>{informacoesPlayer.dano}</p>
                 </div>
+
+                {missoesPlayer && missoesPlayer.length ? (
+                    <>
+                        <div>
+                            <div className={styles.textBody}>
+                                Missões
+                            </div>
+                            <ul>
+                            {missoesPlayer.map(value => (
+                                <li key={`${value.titulo}`}>
+                                    <div>
+                                        {value.titulo}
+                                    </div>
+                                    <div>
+                                        {value.descricao}
+                                    </div>
+                                </li>
+                            ))}
+                            </ul>
+                        </div>
+                    </>
+                ) : null}
                 {quadradoInfo ? (
                     <div>
                         {quadradoInfo.zumbi && quadradoInfo.zumbi.length ? (
@@ -212,7 +243,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                 ) : null}
             </div>
             <Toaster />
-            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} listaVendedor={listaVendedor} informacoesPlayer={informacoesPlayer} quadradoInfo={quadradoInfo}/>
+            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} missoes={missoes} listaVendedor={listaVendedor} informacoesPlayer={informacoesPlayer} quadradoInfo={quadradoInfo}/>
         </div>
     )
 }
