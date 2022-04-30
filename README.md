@@ -26,3 +26,11 @@ A primeira entrega está na pasta DER-Jogo (Separados por versões), sendo a ent
 ## Protótipo de alta fidelidade
 
 https://www.figma.com/file/yGN35EEnHwCy5wCxiE5uxP/Zumbi---Bancos?node-id=0%3A1
+
+# Readme backend/frontend
+
+O frontend e o backend da nossa aplicação se encontram nas pastas zumbi-grupo4-backend e zumbi-grupo4-frontend, para executar basta roda o back e o front junto.
+
+# Video apresentação Final
+
+O video da nossa apresentação final se encontra na pasta raiz deste repositório.

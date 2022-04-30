@@ -25,6 +25,7 @@ docker-compose up
 
 4. Com o docker instalado, primeiramente rode o yarn install, para instalar as dependencias, em seguida rode os comandos:
 ```
+yarn install
 yarn createDB
 ```
 ```
