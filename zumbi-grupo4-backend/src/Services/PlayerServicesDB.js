@@ -42,9 +42,10 @@ export const getMissoes = async (idPlayer) => {
   
   const query = 
   `SELECT m.* FROM missaoPlayer mp
-   WHERE player = ${Number(idPlayer)}
-   LEFT JOIN missao m where m.id = mp.missao;
+  LEFT JOIN missao m on m.id = mp.missao
+  WHERE mp.player = ${Number(idPlayer)};
   `; // Select query
+
   const result = await getDBConnection(query);
   console.log(result);
   return result;

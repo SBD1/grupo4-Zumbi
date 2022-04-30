@@ -58,7 +58,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
         getPlayer()
     }
 
-    const getMissoes = async () => {
+    const getMissoesPlayer = async () => {
         const response = await api.get('/missoes/1')
         setMissoesPlayer(response.data)
     }
@@ -118,6 +118,10 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
             atacarZumbiFunc()
         }
     }, [atacarZumbi, informacoesPlayer])
+
+    useEffect(() => {
+        getMissoesPlayer()
+    }, [])
 
     return (
         <div className={styles.container}>
@@ -243,7 +247,7 @@ export default function Terminal({ quadradoInfo, atualizarQuadrado, informacoesP
                 ) : null}
             </div>
             <Toaster />
-            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} missoes={missoes} listaVendedor={listaVendedor} informacoesPlayer={informacoesPlayer} quadradoInfo={quadradoInfo}/>
+            <ModalVendedor openModal={openModalVendedor} closeModal={() => setModalOpenVendedor(false)} missoes={missoes} getMissoesPlayer={getMissoesPlayer} listaVendedor={listaVendedor} informacoesPlayer={informacoesPlayer} quadradoInfo={quadradoInfo}/>
         </div>
     )
 }

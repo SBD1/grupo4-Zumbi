@@ -13,16 +13,17 @@ interface boolProps {
     listaVendedor: Array<produto>,
     informacoesPlayer: player,
     quadradoInfo: quadradoInfoInterface,
-    missoes: Array<missao>
+    missoes: Array<missao>,
+    getMissoesPlayer: () => void
 }
 
-export default function ModalVendedor({ openModal, closeModal, listaVendedor, informacoesPlayer, quadradoInfo, missoes}: boolProps) {
+export default function ModalVendedor({ openModal, closeModal, listaVendedor, informacoesPlayer, quadradoInfo, missoes, getMissoesPlayer}: boolProps) {
     
     const comprarItem = async (id_item: Number) => {
         await api.post('/npc/comprar', {
             item_id: id_item,
             id_player: informacoesPlayer.id,
-            id_vendedor: quadradoInfo?.npcs[0]?.instancia_npc_id
+            id_vendedor: quadradoInfo?.npcs?.[0]?.instancia_npc_id
         }).then((res) => {
             if (res.data.message === "Ocorreu um erro ao tentar comprar item") {
                 toast.error("Erro ao comprar o item, tente novamente :(")
@@ -37,7 +38,7 @@ export default function ModalVendedor({ openModal, closeModal, listaVendedor, in
 
     const pegarMissao = async (id: Number) => {
         await api.post('/npc/nova-missao', {
-            id_npc: quadradoInfo?.npcs[0]?.instancia_npc_id,
+            id_npc: quadradoInfo?.npcs?.[0]?.instancia_npc_id,
             id_player: informacoesPlayer.id
         }).then((res) => {
             if (res.data.message === "Ocorreu um erro ao tentar comprar item") {
@@ -48,13 +49,13 @@ export default function ModalVendedor({ openModal, closeModal, listaVendedor, in
             console.log(res)
         })
         .catch(() => toast.error("Erro ao comprar o item, tente novamente :("))
-        
+        getMissoesPlayer()
     }
   
     return (
         <Modal isOpen={openModal} className={styles.container}>
             <div className={styles.bolsaTitle}>
-                Vendedor
+                {quadradoInfo?.npcs?.[0]?.tipo_especializacao}
             </div>
             <div style={{overflowY: 'scroll', marginBottom: '2rem'}} >
                 {listaVendedor.map((item, index) =>
